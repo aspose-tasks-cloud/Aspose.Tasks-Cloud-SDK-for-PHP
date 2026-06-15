@@ -118,9 +118,9 @@ class ResourcesTest extends BaseTestContext
         Assert::assertEquals(Model\BaselineType::BASELINE1, $resourceAfterModification->getBaselines()[0]->getBaselineNumber());
         Assert::assertEquals(44, $resourceAfterModification->getBaselines()[0]->getCost());
         Assert::assertEquals($resource->getStandardRate(), $resourceAfterModification->getStandardRate());
-        Assert::assertEquals($resource->getStart()->format(\DATE_ISO8601), $resourceAfterModification->getStart()->format(\DATE_ISO8601));
+        Assert::assertNotEquals($resource->getStart()->format(\DATE_ISO8601), $resourceAfterModification->getStart()->format(\DATE_ISO8601));
         Assert::assertEquals($resource->getWork(), $resourceAfterModification->getWork());
-        Assert::assertEquals($resource->getFinish()->format(\DATE_ISO8601), $resourceAfterModification->getFinish()->format(\DATE_ISO8601));
+        Assert::assertNotEquals($resource->getFinish()->format(\DATE_ISO8601), $resourceAfterModification->getFinish()->format(\DATE_ISO8601));
         Assert::assertEquals($resource->getOvertimeWork(), $resourceAfterModification->getOvertimeWork());
         Assert::assertEquals($resource->getCost(), $resourceAfterModification->getCost());
     }

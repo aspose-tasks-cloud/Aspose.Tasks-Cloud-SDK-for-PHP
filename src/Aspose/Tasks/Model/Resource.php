@@ -1573,7 +1573,7 @@ class Resource implements ArrayAccess
     /*
      * Sets start
      *
-     * @param \DateTime $start The scheduled start date of a resource.
+     * @param \DateTime $start The scheduled start date of a resource. This property is calculated on demand and cannot be set directly.
      *
      * @return $this
      */
@@ -1597,7 +1597,7 @@ class Resource implements ArrayAccess
     /*
      * Sets finish
      *
-     * @param \DateTime $finish The scheduled finish date of a resource.
+     * @param \DateTime $finish The scheduled finish date of a resource. This property is calculated on demand and cannot be set directly.
      *
      * @return $this
      */

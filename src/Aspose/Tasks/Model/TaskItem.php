@@ -62,7 +62,8 @@ class TaskItem implements ArrayAccess
         'name' => 'string',
         'start' => '\DateTime',
         'finish' => '\DateTime',
-        'duration' => 'string'
+        'duration' => 'string',
+        'activity_id' => 'string'
     ];
 
     /*
@@ -77,7 +78,8 @@ class TaskItem implements ArrayAccess
         'name' => null,
         'start' => 'date-time',
         'finish' => 'date-time',
-        'duration' => 'time-span'
+        'duration' => 'time-span',
+        'activity_id' => null
     ];
 
     /*
@@ -113,7 +115,8 @@ class TaskItem implements ArrayAccess
         'name' => 'name',
         'start' => 'start',
         'finish' => 'finish',
-        'duration' => 'duration'
+        'duration' => 'duration',
+        'activity_id' => 'activityId'
     ];
 
     /*
@@ -128,7 +131,8 @@ class TaskItem implements ArrayAccess
         'name' => 'setName',
         'start' => 'setStart',
         'finish' => 'setFinish',
-        'duration' => 'setDuration'
+        'duration' => 'setDuration',
+        'activity_id' => 'setActivityId'
     ];
 
     /*
@@ -143,7 +147,8 @@ class TaskItem implements ArrayAccess
         'name' => 'getName',
         'start' => 'getStart',
         'finish' => 'getFinish',
-        'duration' => 'getDuration'
+        'duration' => 'getDuration',
+        'activity_id' => 'getActivityId'
     ];
 
     /*
@@ -213,6 +218,7 @@ class TaskItem implements ArrayAccess
         $this->container['start'] = isset($data['start']) ? $data['start'] : null;
         $this->container['finish'] = isset($data['finish']) ? $data['finish'] : null;
         $this->container['duration'] = isset($data['duration']) ? $data['duration'] : null;
+        $this->container['activity_id'] = isset($data['activity_id']) ? $data['activity_id'] : null;
     }
 
     /*
@@ -434,6 +440,30 @@ class TaskItem implements ArrayAccess
     public function setDuration($duration)
     {
         $this->container['duration'] = $duration;
+
+        return $this;
+    }
+
+    /*
+     * Gets activity_id
+     *
+     * @return string
+     */
+    public function getActivityId()
+    {
+        return $this->container['activity_id'];
+    }
+
+    /*
+     * Sets activity_id
+     *
+     * @param string $activity_id Represents activity id field - a task's unique identifier used by Primavera.     (only applicable to Primavera projects)
+     *
+     * @return $this
+     */
+    public function setActivityId($activity_id)
+    {
+        $this->container['activity_id'] = $activity_id;
 
         return $this;
     }
