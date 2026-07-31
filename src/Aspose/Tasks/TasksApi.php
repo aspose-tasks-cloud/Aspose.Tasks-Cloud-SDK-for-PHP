@@ -13529,6 +13529,1734 @@ class TasksApi
 
 
     /*
+     * Operation getGroupedResources
+     *
+     * Returns the project resources grouped according to the specified resource group definition.
+     *
+     * @param Requests\GetGroupedResourcesRequest $request is a request object for operation
+     *
+     * @throws \Aspose\Tasks\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \Aspose\Tasks\Model\GroupedResourcesResponse
+     */
+    public function getGroupedResources(Requests\GetGroupedResourcesRequest $request)
+    {
+        try {
+             list($response) = $this->getGroupedResourcesWithHttpInfo($request);
+             return $response;
+        }
+        catch(RepeatRequestException $e) {
+             list($response) = $this->getGroupedResourcesWithHttpInfo($request);
+             return $response;
+        } 
+    }
+
+    /*
+     * Operation getGroupedResourcesWithHttpInfo
+     *
+     * Returns the project resources grouped according to the specified resource group definition.
+     *
+     * @param Requests\GetGroupedResourcesRequest $request is a request object for operation
+     *
+     * @throws \Aspose\Tasks\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \Aspose\Tasks\Model\GroupedResourcesResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getGroupedResourcesWithHttpInfo(Requests\GetGroupedResourcesRequest $request)
+    {
+        $returnType = '\Aspose\Tasks\Model\GroupedResourcesResponse';
+        $request = $this->GetGroupedResourcesRequest($request);
+
+        try {
+            $options = $this->_createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                if ($statusCode === 401) {
+                    $this->_requestToken();
+                    throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                }
+          
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+            
+            if ($this->config->getDebug()) {
+                $this->_writeResponseLog($statusCode, $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+            case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Aspose\Tasks\Model\GroupedResourcesResponse', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                break;
+            }
+            throw $e;
+        }
+    }
+
+    /*
+     * Operation getGroupedResourcesAsync
+     *
+     * Returns the project resources grouped according to the specified resource group definition.
+     *
+     * @param Requests\GetGroupedResourcesRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getGroupedResourcesAsync(Requests\GetGroupedResourcesRequest $request) 
+    {
+        return $this->getGroupedResourcesAsyncWithHttpInfo($request)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /*
+     * Operation getGroupedResourcesAsyncWithHttpInfo
+     *
+     * Returns the project resources grouped according to the specified resource group definition.
+     *
+     * @param Requests\GetGroupedResourcesRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getGroupedResourcesAsyncWithHttpInfo(Requests\GetGroupedResourcesRequest $request) 
+    {
+        $returnType = '\Aspose\Tasks\Model\GroupedResourcesResponse';
+        $request = $this->GetGroupedResourcesRequest($request);
+
+        return $this->client
+            ->sendAsync($request, $this->_createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+                    
+                    if ($this->config->getDebug()) {
+                        $this->_writeResponseLog($response->getStatusCode(), $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {        
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+          
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->_requestToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+          
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /*
+     * Create request for operation 'getGroupedResources'
+     *
+     * @param Requests\GetGroupedResourcesRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getGroupedResourcesRequest(Requests\GetGroupedResourcesRequest $request)
+    {
+        // verify the required parameter 'name' is set
+        if ($request->name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling getGroupedResources');
+        }
+        // verify the required parameter 'group_uid' is set
+        if ($request->group_uid === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $group_uid when calling getGroupedResources');
+        }
+
+        $resourcePath = '/tasks/{name}/resourceGroups/{groupUid}/resources';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = "";
+        $multipart = false;
+    
+        // path params
+        if ($request->name !== null) {
+            $localName = lcfirst('name');
+            $resourcePath = str_replace('{' . $localName . '}', $request->name, $resourcePath);
+        }
+        // path params
+        if ($request->group_uid !== null) {
+            $localName = lcfirst('groupUid');
+            $resourcePath = str_replace('{' . $localName . '}', $request->group_uid, $resourcePath);
+        }
+
+        // query params
+        if ($request->storage !== null) {
+            $localName = lcfirst('storage');
+            $localValue = is_bool($request->storage) ? ($request->storage ? 'true' : 'false') : $request->storage;
+            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
+                $resourcePath = str_replace('{' . $localName . '}', $localValue, $resourcePath);
+            } else {
+                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
+            }
+        }
+        // query params
+        if ($request->folder !== null) {
+            $localName = lcfirst('folder');
+            $localValue = is_bool($request->folder) ? ($request->folder ? 'true' : 'false') : $request->folder;
+            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
+                $resourcePath = str_replace('{' . $localName . '}', $localValue, $resourcePath);
+            } else {
+                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
+            }
+        }
+    
+    
+        $resourcePath = $this->_parseURL($resourcePath, $queryParams);
+
+        // body params
+        $_tempBody = null;
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            $httpBody = $_tempBody;
+            // \stdClass has no __toString(), so we should encode it manually
+            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($httpBody);
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                // for HTTP post (form)
+                $httpBody = $formParams['file'];
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = $formParams["data"];
+            }
+        }
+
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
+        }
+    
+        $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+    
+        $req = new Request(
+            'GET',
+            $this->config->getHost() . $resourcePath,
+            $headers,
+            $httpBody
+        );
+        if ($this->config->getDebug()) {
+            $this->_writeRequestLog('GET', $this->config->getHost() . $resourcePath, $headers, $httpBody);
+        }
+        
+        return $req;
+    }
+
+
+    /*
+     * Operation getGroupedTasks
+     *
+     * Returns the project tasks grouped according to the specified task group definition.
+     *
+     * @param Requests\GetGroupedTasksRequest $request is a request object for operation
+     *
+     * @throws \Aspose\Tasks\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \Aspose\Tasks\Model\GroupedTasksResponse
+     */
+    public function getGroupedTasks(Requests\GetGroupedTasksRequest $request)
+    {
+        try {
+             list($response) = $this->getGroupedTasksWithHttpInfo($request);
+             return $response;
+        }
+        catch(RepeatRequestException $e) {
+             list($response) = $this->getGroupedTasksWithHttpInfo($request);
+             return $response;
+        } 
+    }
+
+    /*
+     * Operation getGroupedTasksWithHttpInfo
+     *
+     * Returns the project tasks grouped according to the specified task group definition.
+     *
+     * @param Requests\GetGroupedTasksRequest $request is a request object for operation
+     *
+     * @throws \Aspose\Tasks\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \Aspose\Tasks\Model\GroupedTasksResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getGroupedTasksWithHttpInfo(Requests\GetGroupedTasksRequest $request)
+    {
+        $returnType = '\Aspose\Tasks\Model\GroupedTasksResponse';
+        $request = $this->GetGroupedTasksRequest($request);
+
+        try {
+            $options = $this->_createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                if ($statusCode === 401) {
+                    $this->_requestToken();
+                    throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                }
+          
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+            
+            if ($this->config->getDebug()) {
+                $this->_writeResponseLog($statusCode, $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+            case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Aspose\Tasks\Model\GroupedTasksResponse', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                break;
+            }
+            throw $e;
+        }
+    }
+
+    /*
+     * Operation getGroupedTasksAsync
+     *
+     * Returns the project tasks grouped according to the specified task group definition.
+     *
+     * @param Requests\GetGroupedTasksRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getGroupedTasksAsync(Requests\GetGroupedTasksRequest $request) 
+    {
+        return $this->getGroupedTasksAsyncWithHttpInfo($request)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /*
+     * Operation getGroupedTasksAsyncWithHttpInfo
+     *
+     * Returns the project tasks grouped according to the specified task group definition.
+     *
+     * @param Requests\GetGroupedTasksRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getGroupedTasksAsyncWithHttpInfo(Requests\GetGroupedTasksRequest $request) 
+    {
+        $returnType = '\Aspose\Tasks\Model\GroupedTasksResponse';
+        $request = $this->GetGroupedTasksRequest($request);
+
+        return $this->client
+            ->sendAsync($request, $this->_createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+                    
+                    if ($this->config->getDebug()) {
+                        $this->_writeResponseLog($response->getStatusCode(), $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {        
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+          
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->_requestToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+          
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /*
+     * Create request for operation 'getGroupedTasks'
+     *
+     * @param Requests\GetGroupedTasksRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getGroupedTasksRequest(Requests\GetGroupedTasksRequest $request)
+    {
+        // verify the required parameter 'name' is set
+        if ($request->name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling getGroupedTasks');
+        }
+        // verify the required parameter 'group_uid' is set
+        if ($request->group_uid === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $group_uid when calling getGroupedTasks');
+        }
+
+        $resourcePath = '/tasks/{name}/taskGroups/{groupUid}/tasks';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = "";
+        $multipart = false;
+    
+        // path params
+        if ($request->name !== null) {
+            $localName = lcfirst('name');
+            $resourcePath = str_replace('{' . $localName . '}', $request->name, $resourcePath);
+        }
+        // path params
+        if ($request->group_uid !== null) {
+            $localName = lcfirst('groupUid');
+            $resourcePath = str_replace('{' . $localName . '}', $request->group_uid, $resourcePath);
+        }
+
+        // query params
+        if ($request->storage !== null) {
+            $localName = lcfirst('storage');
+            $localValue = is_bool($request->storage) ? ($request->storage ? 'true' : 'false') : $request->storage;
+            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
+                $resourcePath = str_replace('{' . $localName . '}', $localValue, $resourcePath);
+            } else {
+                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
+            }
+        }
+        // query params
+        if ($request->folder !== null) {
+            $localName = lcfirst('folder');
+            $localValue = is_bool($request->folder) ? ($request->folder ? 'true' : 'false') : $request->folder;
+            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
+                $resourcePath = str_replace('{' . $localName . '}', $localValue, $resourcePath);
+            } else {
+                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
+            }
+        }
+    
+    
+        $resourcePath = $this->_parseURL($resourcePath, $queryParams);
+
+        // body params
+        $_tempBody = null;
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            $httpBody = $_tempBody;
+            // \stdClass has no __toString(), so we should encode it manually
+            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($httpBody);
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                // for HTTP post (form)
+                $httpBody = $formParams['file'];
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = $formParams["data"];
+            }
+        }
+
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
+        }
+    
+        $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+    
+        $req = new Request(
+            'GET',
+            $this->config->getHost() . $resourcePath,
+            $headers,
+            $httpBody
+        );
+        if ($this->config->getDebug()) {
+            $this->_writeRequestLog('GET', $this->config->getHost() . $resourcePath, $headers, $httpBody);
+        }
+        
+        return $req;
+    }
+
+
+    /*
+     * Operation getResourceGroup
+     *
+     * Read a project's resource group definition with the specified Uid.
+     *
+     * @param Requests\GetResourceGroupRequest $request is a request object for operation
+     *
+     * @throws \Aspose\Tasks\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \Aspose\Tasks\Model\GroupResponse
+     */
+    public function getResourceGroup(Requests\GetResourceGroupRequest $request)
+    {
+        try {
+             list($response) = $this->getResourceGroupWithHttpInfo($request);
+             return $response;
+        }
+        catch(RepeatRequestException $e) {
+             list($response) = $this->getResourceGroupWithHttpInfo($request);
+             return $response;
+        } 
+    }
+
+    /*
+     * Operation getResourceGroupWithHttpInfo
+     *
+     * Read a project's resource group definition with the specified Uid.
+     *
+     * @param Requests\GetResourceGroupRequest $request is a request object for operation
+     *
+     * @throws \Aspose\Tasks\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \Aspose\Tasks\Model\GroupResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getResourceGroupWithHttpInfo(Requests\GetResourceGroupRequest $request)
+    {
+        $returnType = '\Aspose\Tasks\Model\GroupResponse';
+        $request = $this->GetResourceGroupRequest($request);
+
+        try {
+            $options = $this->_createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                if ($statusCode === 401) {
+                    $this->_requestToken();
+                    throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                }
+          
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+            
+            if ($this->config->getDebug()) {
+                $this->_writeResponseLog($statusCode, $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+            case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Aspose\Tasks\Model\GroupResponse', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                break;
+            }
+            throw $e;
+        }
+    }
+
+    /*
+     * Operation getResourceGroupAsync
+     *
+     * Read a project's resource group definition with the specified Uid.
+     *
+     * @param Requests\GetResourceGroupRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getResourceGroupAsync(Requests\GetResourceGroupRequest $request) 
+    {
+        return $this->getResourceGroupAsyncWithHttpInfo($request)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /*
+     * Operation getResourceGroupAsyncWithHttpInfo
+     *
+     * Read a project's resource group definition with the specified Uid.
+     *
+     * @param Requests\GetResourceGroupRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getResourceGroupAsyncWithHttpInfo(Requests\GetResourceGroupRequest $request) 
+    {
+        $returnType = '\Aspose\Tasks\Model\GroupResponse';
+        $request = $this->GetResourceGroupRequest($request);
+
+        return $this->client
+            ->sendAsync($request, $this->_createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+                    
+                    if ($this->config->getDebug()) {
+                        $this->_writeResponseLog($response->getStatusCode(), $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {        
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+          
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->_requestToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+          
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /*
+     * Create request for operation 'getResourceGroup'
+     *
+     * @param Requests\GetResourceGroupRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getResourceGroupRequest(Requests\GetResourceGroupRequest $request)
+    {
+        // verify the required parameter 'name' is set
+        if ($request->name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling getResourceGroup');
+        }
+        // verify the required parameter 'group_uid' is set
+        if ($request->group_uid === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $group_uid when calling getResourceGroup');
+        }
+
+        $resourcePath = '/tasks/{name}/resourceGroups/{groupUid}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = "";
+        $multipart = false;
+    
+        // path params
+        if ($request->name !== null) {
+            $localName = lcfirst('name');
+            $resourcePath = str_replace('{' . $localName . '}', $request->name, $resourcePath);
+        }
+        // path params
+        if ($request->group_uid !== null) {
+            $localName = lcfirst('groupUid');
+            $resourcePath = str_replace('{' . $localName . '}', $request->group_uid, $resourcePath);
+        }
+
+        // query params
+        if ($request->storage !== null) {
+            $localName = lcfirst('storage');
+            $localValue = is_bool($request->storage) ? ($request->storage ? 'true' : 'false') : $request->storage;
+            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
+                $resourcePath = str_replace('{' . $localName . '}', $localValue, $resourcePath);
+            } else {
+                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
+            }
+        }
+        // query params
+        if ($request->folder !== null) {
+            $localName = lcfirst('folder');
+            $localValue = is_bool($request->folder) ? ($request->folder ? 'true' : 'false') : $request->folder;
+            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
+                $resourcePath = str_replace('{' . $localName . '}', $localValue, $resourcePath);
+            } else {
+                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
+            }
+        }
+    
+    
+        $resourcePath = $this->_parseURL($resourcePath, $queryParams);
+
+        // body params
+        $_tempBody = null;
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            $httpBody = $_tempBody;
+            // \stdClass has no __toString(), so we should encode it manually
+            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($httpBody);
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                // for HTTP post (form)
+                $httpBody = $formParams['file'];
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = $formParams["data"];
+            }
+        }
+
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
+        }
+    
+        $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+    
+        $req = new Request(
+            'GET',
+            $this->config->getHost() . $resourcePath,
+            $headers,
+            $httpBody
+        );
+        if ($this->config->getDebug()) {
+            $this->_writeRequestLog('GET', $this->config->getHost() . $resourcePath, $headers, $httpBody);
+        }
+        
+        return $req;
+    }
+
+
+    /*
+     * Operation getResourceGroups
+     *
+     * Read the resource group definitions of a project.
+     *
+     * @param Requests\GetResourceGroupsRequest $request is a request object for operation
+     *
+     * @throws \Aspose\Tasks\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \Aspose\Tasks\Model\GroupItemsResponse
+     */
+    public function getResourceGroups(Requests\GetResourceGroupsRequest $request)
+    {
+        try {
+             list($response) = $this->getResourceGroupsWithHttpInfo($request);
+             return $response;
+        }
+        catch(RepeatRequestException $e) {
+             list($response) = $this->getResourceGroupsWithHttpInfo($request);
+             return $response;
+        } 
+    }
+
+    /*
+     * Operation getResourceGroupsWithHttpInfo
+     *
+     * Read the resource group definitions of a project.
+     *
+     * @param Requests\GetResourceGroupsRequest $request is a request object for operation
+     *
+     * @throws \Aspose\Tasks\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \Aspose\Tasks\Model\GroupItemsResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getResourceGroupsWithHttpInfo(Requests\GetResourceGroupsRequest $request)
+    {
+        $returnType = '\Aspose\Tasks\Model\GroupItemsResponse';
+        $request = $this->GetResourceGroupsRequest($request);
+
+        try {
+            $options = $this->_createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                if ($statusCode === 401) {
+                    $this->_requestToken();
+                    throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                }
+          
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+            
+            if ($this->config->getDebug()) {
+                $this->_writeResponseLog($statusCode, $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+            case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Aspose\Tasks\Model\GroupItemsResponse', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                break;
+            }
+            throw $e;
+        }
+    }
+
+    /*
+     * Operation getResourceGroupsAsync
+     *
+     * Read the resource group definitions of a project.
+     *
+     * @param Requests\GetResourceGroupsRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getResourceGroupsAsync(Requests\GetResourceGroupsRequest $request) 
+    {
+        return $this->getResourceGroupsAsyncWithHttpInfo($request)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /*
+     * Operation getResourceGroupsAsyncWithHttpInfo
+     *
+     * Read the resource group definitions of a project.
+     *
+     * @param Requests\GetResourceGroupsRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getResourceGroupsAsyncWithHttpInfo(Requests\GetResourceGroupsRequest $request) 
+    {
+        $returnType = '\Aspose\Tasks\Model\GroupItemsResponse';
+        $request = $this->GetResourceGroupsRequest($request);
+
+        return $this->client
+            ->sendAsync($request, $this->_createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+                    
+                    if ($this->config->getDebug()) {
+                        $this->_writeResponseLog($response->getStatusCode(), $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {        
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+          
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->_requestToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+          
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /*
+     * Create request for operation 'getResourceGroups'
+     *
+     * @param Requests\GetResourceGroupsRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getResourceGroupsRequest(Requests\GetResourceGroupsRequest $request)
+    {
+        // verify the required parameter 'name' is set
+        if ($request->name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling getResourceGroups');
+        }
+
+        $resourcePath = '/tasks/{name}/resourceGroups';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = "";
+        $multipart = false;
+    
+        // path params
+        if ($request->name !== null) {
+            $localName = lcfirst('name');
+            $resourcePath = str_replace('{' . $localName . '}', $request->name, $resourcePath);
+        }
+
+        // query params
+        if ($request->storage !== null) {
+            $localName = lcfirst('storage');
+            $localValue = is_bool($request->storage) ? ($request->storage ? 'true' : 'false') : $request->storage;
+            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
+                $resourcePath = str_replace('{' . $localName . '}', $localValue, $resourcePath);
+            } else {
+                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
+            }
+        }
+        // query params
+        if ($request->folder !== null) {
+            $localName = lcfirst('folder');
+            $localValue = is_bool($request->folder) ? ($request->folder ? 'true' : 'false') : $request->folder;
+            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
+                $resourcePath = str_replace('{' . $localName . '}', $localValue, $resourcePath);
+            } else {
+                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
+            }
+        }
+    
+    
+        $resourcePath = $this->_parseURL($resourcePath, $queryParams);
+
+        // body params
+        $_tempBody = null;
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            $httpBody = $_tempBody;
+            // \stdClass has no __toString(), so we should encode it manually
+            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($httpBody);
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                // for HTTP post (form)
+                $httpBody = $formParams['file'];
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = $formParams["data"];
+            }
+        }
+
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
+        }
+    
+        $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+    
+        $req = new Request(
+            'GET',
+            $this->config->getHost() . $resourcePath,
+            $headers,
+            $httpBody
+        );
+        if ($this->config->getDebug()) {
+            $this->_writeRequestLog('GET', $this->config->getHost() . $resourcePath, $headers, $httpBody);
+        }
+        
+        return $req;
+    }
+
+
+    /*
+     * Operation getTaskGroup
+     *
+     * Read a project's task group definition with the specified Uid.
+     *
+     * @param Requests\GetTaskGroupRequest $request is a request object for operation
+     *
+     * @throws \Aspose\Tasks\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \Aspose\Tasks\Model\GroupResponse
+     */
+    public function getTaskGroup(Requests\GetTaskGroupRequest $request)
+    {
+        try {
+             list($response) = $this->getTaskGroupWithHttpInfo($request);
+             return $response;
+        }
+        catch(RepeatRequestException $e) {
+             list($response) = $this->getTaskGroupWithHttpInfo($request);
+             return $response;
+        } 
+    }
+
+    /*
+     * Operation getTaskGroupWithHttpInfo
+     *
+     * Read a project's task group definition with the specified Uid.
+     *
+     * @param Requests\GetTaskGroupRequest $request is a request object for operation
+     *
+     * @throws \Aspose\Tasks\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \Aspose\Tasks\Model\GroupResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getTaskGroupWithHttpInfo(Requests\GetTaskGroupRequest $request)
+    {
+        $returnType = '\Aspose\Tasks\Model\GroupResponse';
+        $request = $this->GetTaskGroupRequest($request);
+
+        try {
+            $options = $this->_createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                if ($statusCode === 401) {
+                    $this->_requestToken();
+                    throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                }
+          
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+            
+            if ($this->config->getDebug()) {
+                $this->_writeResponseLog($statusCode, $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+            case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Aspose\Tasks\Model\GroupResponse', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                break;
+            }
+            throw $e;
+        }
+    }
+
+    /*
+     * Operation getTaskGroupAsync
+     *
+     * Read a project's task group definition with the specified Uid.
+     *
+     * @param Requests\GetTaskGroupRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getTaskGroupAsync(Requests\GetTaskGroupRequest $request) 
+    {
+        return $this->getTaskGroupAsyncWithHttpInfo($request)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /*
+     * Operation getTaskGroupAsyncWithHttpInfo
+     *
+     * Read a project's task group definition with the specified Uid.
+     *
+     * @param Requests\GetTaskGroupRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getTaskGroupAsyncWithHttpInfo(Requests\GetTaskGroupRequest $request) 
+    {
+        $returnType = '\Aspose\Tasks\Model\GroupResponse';
+        $request = $this->GetTaskGroupRequest($request);
+
+        return $this->client
+            ->sendAsync($request, $this->_createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+                    
+                    if ($this->config->getDebug()) {
+                        $this->_writeResponseLog($response->getStatusCode(), $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {        
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+          
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->_requestToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+          
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /*
+     * Create request for operation 'getTaskGroup'
+     *
+     * @param Requests\GetTaskGroupRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getTaskGroupRequest(Requests\GetTaskGroupRequest $request)
+    {
+        // verify the required parameter 'name' is set
+        if ($request->name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling getTaskGroup');
+        }
+        // verify the required parameter 'group_uid' is set
+        if ($request->group_uid === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $group_uid when calling getTaskGroup');
+        }
+
+        $resourcePath = '/tasks/{name}/taskGroups/{groupUid}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = "";
+        $multipart = false;
+    
+        // path params
+        if ($request->name !== null) {
+            $localName = lcfirst('name');
+            $resourcePath = str_replace('{' . $localName . '}', $request->name, $resourcePath);
+        }
+        // path params
+        if ($request->group_uid !== null) {
+            $localName = lcfirst('groupUid');
+            $resourcePath = str_replace('{' . $localName . '}', $request->group_uid, $resourcePath);
+        }
+
+        // query params
+        if ($request->storage !== null) {
+            $localName = lcfirst('storage');
+            $localValue = is_bool($request->storage) ? ($request->storage ? 'true' : 'false') : $request->storage;
+            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
+                $resourcePath = str_replace('{' . $localName . '}', $localValue, $resourcePath);
+            } else {
+                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
+            }
+        }
+        // query params
+        if ($request->folder !== null) {
+            $localName = lcfirst('folder');
+            $localValue = is_bool($request->folder) ? ($request->folder ? 'true' : 'false') : $request->folder;
+            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
+                $resourcePath = str_replace('{' . $localName . '}', $localValue, $resourcePath);
+            } else {
+                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
+            }
+        }
+    
+    
+        $resourcePath = $this->_parseURL($resourcePath, $queryParams);
+
+        // body params
+        $_tempBody = null;
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            $httpBody = $_tempBody;
+            // \stdClass has no __toString(), so we should encode it manually
+            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($httpBody);
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                // for HTTP post (form)
+                $httpBody = $formParams['file'];
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = $formParams["data"];
+            }
+        }
+
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
+        }
+    
+        $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+    
+        $req = new Request(
+            'GET',
+            $this->config->getHost() . $resourcePath,
+            $headers,
+            $httpBody
+        );
+        if ($this->config->getDebug()) {
+            $this->_writeRequestLog('GET', $this->config->getHost() . $resourcePath, $headers, $httpBody);
+        }
+        
+        return $req;
+    }
+
+
+    /*
+     * Operation getTaskGroups
+     *
+     * Read the task group definitions of a project.
+     *
+     * @param Requests\GetTaskGroupsRequest $request is a request object for operation
+     *
+     * @throws \Aspose\Tasks\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \Aspose\Tasks\Model\GroupItemsResponse
+     */
+    public function getTaskGroups(Requests\GetTaskGroupsRequest $request)
+    {
+        try {
+             list($response) = $this->getTaskGroupsWithHttpInfo($request);
+             return $response;
+        }
+        catch(RepeatRequestException $e) {
+             list($response) = $this->getTaskGroupsWithHttpInfo($request);
+             return $response;
+        } 
+    }
+
+    /*
+     * Operation getTaskGroupsWithHttpInfo
+     *
+     * Read the task group definitions of a project.
+     *
+     * @param Requests\GetTaskGroupsRequest $request is a request object for operation
+     *
+     * @throws \Aspose\Tasks\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \Aspose\Tasks\Model\GroupItemsResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getTaskGroupsWithHttpInfo(Requests\GetTaskGroupsRequest $request)
+    {
+        $returnType = '\Aspose\Tasks\Model\GroupItemsResponse';
+        $request = $this->GetTaskGroupsRequest($request);
+
+        try {
+            $options = $this->_createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                if ($statusCode === 401) {
+                    $this->_requestToken();
+                    throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                }
+          
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+            
+            if ($this->config->getDebug()) {
+                $this->_writeResponseLog($statusCode, $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+            case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Aspose\Tasks\Model\GroupItemsResponse', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                break;
+            }
+            throw $e;
+        }
+    }
+
+    /*
+     * Operation getTaskGroupsAsync
+     *
+     * Read the task group definitions of a project.
+     *
+     * @param Requests\GetTaskGroupsRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getTaskGroupsAsync(Requests\GetTaskGroupsRequest $request) 
+    {
+        return $this->getTaskGroupsAsyncWithHttpInfo($request)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /*
+     * Operation getTaskGroupsAsyncWithHttpInfo
+     *
+     * Read the task group definitions of a project.
+     *
+     * @param Requests\GetTaskGroupsRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getTaskGroupsAsyncWithHttpInfo(Requests\GetTaskGroupsRequest $request) 
+    {
+        $returnType = '\Aspose\Tasks\Model\GroupItemsResponse';
+        $request = $this->GetTaskGroupsRequest($request);
+
+        return $this->client
+            ->sendAsync($request, $this->_createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+                    
+                    if ($this->config->getDebug()) {
+                        $this->_writeResponseLog($response->getStatusCode(), $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {        
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+          
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->_requestToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+          
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /*
+     * Create request for operation 'getTaskGroups'
+     *
+     * @param Requests\GetTaskGroupsRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getTaskGroupsRequest(Requests\GetTaskGroupsRequest $request)
+    {
+        // verify the required parameter 'name' is set
+        if ($request->name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling getTaskGroups');
+        }
+
+        $resourcePath = '/tasks/{name}/taskGroups';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = "";
+        $multipart = false;
+    
+        // path params
+        if ($request->name !== null) {
+            $localName = lcfirst('name');
+            $resourcePath = str_replace('{' . $localName . '}', $request->name, $resourcePath);
+        }
+
+        // query params
+        if ($request->storage !== null) {
+            $localName = lcfirst('storage');
+            $localValue = is_bool($request->storage) ? ($request->storage ? 'true' : 'false') : $request->storage;
+            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
+                $resourcePath = str_replace('{' . $localName . '}', $localValue, $resourcePath);
+            } else {
+                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
+            }
+        }
+        // query params
+        if ($request->folder !== null) {
+            $localName = lcfirst('folder');
+            $localValue = is_bool($request->folder) ? ($request->folder ? 'true' : 'false') : $request->folder;
+            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
+                $resourcePath = str_replace('{' . $localName . '}', $localValue, $resourcePath);
+            } else {
+                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
+            }
+        }
+    
+    
+        $resourcePath = $this->_parseURL($resourcePath, $queryParams);
+
+        // body params
+        $_tempBody = null;
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            $httpBody = $_tempBody;
+            // \stdClass has no __toString(), so we should encode it manually
+            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($httpBody);
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                // for HTTP post (form)
+                $httpBody = $formParams['file'];
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = $formParams["data"];
+            }
+        }
+
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
+        }
+    
+        $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+    
+        $req = new Request(
+            'GET',
+            $this->config->getHost() . $resourcePath,
+            $headers,
+            $httpBody
+        );
+        if ($this->config->getDebug()) {
+            $this->_writeRequestLog('GET', $this->config->getHost() . $resourcePath, $headers, $httpBody);
+        }
+        
+        return $req;
+    }
+
+
+    /*
      * Operation deleteOutlineCodeByIndex
      *
      * Deletes a project outline code
