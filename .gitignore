@@ -115,3 +115,5 @@ testReports/*
 /.settings/org.eclipse.wst.validation.prefs
 /.buildpath
 /.project
+/.phpunit.cache/
+/.vscode/

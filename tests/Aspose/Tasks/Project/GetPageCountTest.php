@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
 * --------------------------------------------------------------------------------------------------------------------
 * <copyright company="Aspose" file="GetPageCountTest.php">
@@ -26,10 +26,12 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Project;
+
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests\GetPageCountRequest;
+use DateTime;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class GetPageCountTest extends BaseTestContext
 {
@@ -46,8 +48,8 @@ class GetPageCountTest extends BaseTestContext
             null,
             $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertEquals(4, $response->getPageCount());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals(4, $response->getPageCount());
     }
     
     public function testGetPageCountWithPresentationFormatAndDateInterval()
@@ -63,7 +65,7 @@ class GetPageCountTest extends BaseTestContext
             new DateTime("2004-02-28"),
             $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertEquals(4, $response->getPageCount());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals(4, $response->getPageCount());
     }
 }

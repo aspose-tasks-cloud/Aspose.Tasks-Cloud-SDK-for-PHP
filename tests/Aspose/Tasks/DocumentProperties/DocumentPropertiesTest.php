@@ -26,10 +26,11 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\DocumentProperties;
+
 use Aspose\Tasks\Model\Requests;
 use Aspose\Tasks\Model\DocumentProperty;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class DocumentPropertiesTest extends BaseTestContext
 {
@@ -40,10 +41,10 @@ class DocumentPropertiesTest extends BaseTestContext
         
         $response = $this->tasks->getDocumentProperties(new Requests\GetDocumentPropertiesRequest($remoteName, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertEquals(63, count($response->getProperties()->getList()));
-        Assert::assertEquals("Title", $response->getProperties()->getList()[0]->getName());
-        Assert::assertEquals("Home Move", $response->getProperties()->getList()[0]->getValue());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals(63, count($response->getProperties()->getList()));
+        $this->assertEquals("Title", $response->getProperties()->getList()[0]->getName());
+        $this->assertEquals("Home Move", $response->getProperties()->getList()[0]->getValue());
     }
     
     public function testGetDocumentProperty()
@@ -53,10 +54,10 @@ class DocumentPropertiesTest extends BaseTestContext
         
         $response = $this->tasks->getDocumentProperty(new Requests\GetDocumentPropertyRequest($remoteName, "Title", self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getProperty());
-        Assert::assertEquals("Title", $response->getProperty()->getName());
-        Assert::assertEquals("Home Move", $response->getProperty()->getValue());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getProperty());
+        $this->assertEquals("Title", $response->getProperty()->getName());
+        $this->assertEquals("Home Move", $response->getProperty()->getValue());
     }
     
     public function testEditDocumentProperty()
@@ -69,23 +70,23 @@ class DocumentPropertiesTest extends BaseTestContext
         $property->setValue("New title value");
         
         $response = $this->tasks->putDocumentProperty(new Requests\PutDocumentPropertyRequest($remoteName, "Title", $property, self::$storageName, $folder, null));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getDocumentProperties(new Requests\GetDocumentPropertiesRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertEquals(63, count($response->getProperties()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals(63, count($response->getProperties()->getList()));
         
         foreach($response->getProperties()->getList() as $p)
         {
             if($p->getName() == "Title")
             {
                 $found = true;
-                Assert::assertEquals("New title value", $p->getValue());
+                $this->assertEquals("New title value", $p->getValue());
                 break;
             }
         }
         
-        Assert::isTrue($found);
+        $this->isTrue($found);
     }
     
     public function testEditDocumentPropertyViaPost()
@@ -98,23 +99,23 @@ class DocumentPropertiesTest extends BaseTestContext
         $property->setValue("New title value");
         
         $response = $this->tasks->postDocumentProperty(new Requests\PostDocumentPropertyRequest($remoteName, "Title", $property, self::$storageName, $folder, null));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getDocumentProperties(new Requests\GetDocumentPropertiesRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertEquals(63, count($response->getProperties()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals(63, count($response->getProperties()->getList()));
         
         foreach($response->getProperties()->getList() as $p)
         {
             if($p->getName() == "Title")
             {
                 $found = true;
-                Assert::assertEquals("New title value", $p->getValue());
+                $this->assertEquals("New title value", $p->getValue());
                 break;
             }
         }
         
-        Assert::isTrue($found);
+        $this->isTrue($found);
     }
     
     public function testAddNonExistingDocumentProperty()
@@ -127,17 +128,17 @@ class DocumentPropertiesTest extends BaseTestContext
         $property->setValue("New property value");
         
         $response = $this->tasks->postDocumentProperty(new Requests\PostDocumentPropertyRequest($remoteName, "new property", $property, self::$storageName, $folder, null));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getDocumentProperties(new Requests\GetDocumentPropertiesRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertEquals(63, count($response->getProperties()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals(63, count($response->getProperties()->getList()));
         
         foreach($response->getProperties()->getList() as $p)
         {
             if($p->getName() == "new property")
             {
-                Assert::fail("Unexpected property: new property");
+                $this->fail("Unexpected property: new property");
             }
         }
    }

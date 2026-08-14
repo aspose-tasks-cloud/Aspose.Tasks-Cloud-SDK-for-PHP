@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
 * --------------------------------------------------------------------------------------------------------------------
 * <copyright company="Aspose" file="TaskDocumentFormatTest.php">
@@ -26,11 +26,12 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Project;
+
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests\PostTaskDocumentWithFormatRequest;
 use Aspose\Tasks\Model\Requests\GetTaskDocumentWithFormatRequest;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class TaskDocumentFormatTest extends BaseTestContext
 {
@@ -42,10 +43,10 @@ class TaskDocumentFormatTest extends BaseTestContext
         $response = $this->tasks->getTaskDocumentWithFormat(new GetTaskDocumentWithFormatRequest($remoteName,
             Model\ProjectFileFormat::CSV, false, self::$storageName, $folder));
         
-        Assert::assertNotNull($response);
-        Assert::assertContains("ID;Task_Name;Outline_Level;Duration;Start_Date;Finish_Date;Percent_Comp;Cost;Work", $response->current());
+        $this->assertNotNull($response);
+        $this->assertStringContainsString("ID;Task_Name;Outline_Level;Duration;Start_Date;Finish_Date;Percent_Comp;Cost;Work", $response->current());
         $response->next();
-        Assert::assertContains("1;Five to Eight Weeks Before Moving;1;16 days;Thu 01.01.04 08:00;Thu 22.01.04 17:00;0%;$0;0 hrs", $response->current());
+        $this->assertStringContainsString("1;Five to Eight Weeks Before Moving;1;16 days;Thu 01.01.04 08:00;Thu 22.01.04 17:00;0%;$0;0 hrs", $response->current());
     }
     
     public function testGetDocumentAsZippedHtml()
@@ -56,6 +57,6 @@ class TaskDocumentFormatTest extends BaseTestContext
         $response = $this->tasks->getTaskDocumentWithFormat(new GetTaskDocumentWithFormatRequest($remoteName,
             Model\ProjectFileFormat::HTML, true, self::$storageName, $folder));
         
-        Assert::assertNotNull($response);
+        $this->assertNotNull($response);
     }
 }

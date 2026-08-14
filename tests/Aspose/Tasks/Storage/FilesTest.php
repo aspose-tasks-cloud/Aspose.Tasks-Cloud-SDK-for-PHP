@@ -26,11 +26,11 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Storage;
 
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class FilesTest extends BaseTestContext
 {
@@ -42,7 +42,7 @@ class FilesTest extends BaseTestContext
         $downloadRequest = new Requests\DownloadFileRequest($remoteFullName);
         $response = $this->tasks->downloadFile($downloadRequest);
 
-        Assert::assertNotNull($response);
-        Assert::assertTrue($response->valid());
+        $this->assertNotNull($response);
+        $this->assertTrue($response->valid());
     }
 }

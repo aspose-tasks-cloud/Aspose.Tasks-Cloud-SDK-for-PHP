@@ -25,13 +25,15 @@
  * </summary>
  * --------------------------------------------------------------------------------------------------------------------
  */
-include_once (realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+
+namespace Aspose\Tasks\Tests\Tasks;
 
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests;
 use Aspose\Tasks\Model\ExtendedAttributeDefinition;
 use Aspose\Tasks\Model\ExtendedAttribute;
+use Aspose\Tasks\Tests\BaseTestContext;
+use DateTime;
 
 class TasksExtendedAttributesTest extends BaseTestContext
 {
@@ -62,12 +64,12 @@ class TasksExtendedAttributesTest extends BaseTestContext
         ));
         
         $response = $this->tasks->putExtendedAttribute(new Requests\PutExtendedAttributeRequest($remoteName, $newExtendedAttribute, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         $addedFieldId = $response->getExtendedAttribute()->getFieldId();
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         $task = $response->getTask();
         
         $extendedAttributeValue = new ExtendedAttribute();
@@ -79,15 +81,15 @@ class TasksExtendedAttributesTest extends BaseTestContext
         )));
         
         $response = $this->tasks->putTask(new Requests\PutTaskRequest($remoteName, 27, $task, null, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         
-        Assert::assertEquals(1, count($response->getTask()->getExtendedAttributes()));
-        Assert::assertEquals(188743737, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
-        Assert::assertEquals(112, $response->getTask()->getExtendedAttributes()[0]->getLookupValueId());
+        $this->assertEquals(1, count($response->getTask()->getExtendedAttributes()));
+        $this->assertEquals(188743737, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
+        $this->assertEquals(112, $response->getTask()->getExtendedAttributes()[0]->getLookupValueId());
     }
 
     public function testEditTaskExtendedAttributeDateValue()
@@ -103,11 +105,11 @@ class TasksExtendedAttributesTest extends BaseTestContext
         $newExtendedAttribute->setAlias("New Date Field");
         
         $response = $this->tasks->putExtendedAttribute(new Requests\PutExtendedAttributeRequest($remoteName, $newExtendedAttribute, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         $task = $response->getTask();
         
         $extendedAttributeValue = new ExtendedAttribute();
@@ -119,15 +121,15 @@ class TasksExtendedAttributesTest extends BaseTestContext
         )));
         
         $response = $this->tasks->putTask(new Requests\PutTaskRequest($remoteName, 27, $task, null, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         
-        Assert::assertEquals(1, count($response->getTask()->getExtendedAttributes()));
-        Assert::assertEquals(188743964, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
-        Assert::assertEquals("2018-05-05T09:15:00", $response->getTask()->getExtendedAttributes()[0]->getDateValue()->format("Y-m-d\\TH:i:s"));
+        $this->assertEquals(1, count($response->getTask()->getExtendedAttributes()));
+        $this->assertEquals(188743964, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
+        $this->assertEquals("2018-05-05T09:15:00", $response->getTask()->getExtendedAttributes()[0]->getDateValue()->format("Y-m-d\\TH:i:s"));
     }
 
     public function testEditTaskExtendedAttributeDurationValue()
@@ -143,11 +145,11 @@ class TasksExtendedAttributesTest extends BaseTestContext
         $newExtendedAttribute->setAlias("New Duration Field");
         
         $response = $this->tasks->putExtendedAttribute(new Requests\PutExtendedAttributeRequest($remoteName, $newExtendedAttribute, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         $task = $response->getTask();
         
         $extendedAttributeValue = new ExtendedAttribute();
@@ -160,15 +162,15 @@ class TasksExtendedAttributesTest extends BaseTestContext
         $task->setExtendedAttributes(array_merge($task->getExtendedAttributes(), array($extendedAttributeValue)));
         
         $response = $this->tasks->putTask(new Requests\PutTaskRequest($remoteName, 27, $task, null, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         
-        Assert::assertEquals(1, count($response->getTask()->getExtendedAttributes()));
-        Assert::assertEquals(188743958, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
-        Assert::assertEquals("100.10:00:00", $response->getTask()->getExtendedAttributes()[0]->getDurationValue()->getTimeSpan());
+        $this->assertEquals(1, count($response->getTask()->getExtendedAttributes()));
+        $this->assertEquals(188743958, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
+        $this->assertEquals("100.10:00:00", $response->getTask()->getExtendedAttributes()[0]->getDurationValue()->getTimeSpan());
     }
     
     public function testEditTaskExtendedAttributeFlagValue()
@@ -184,11 +186,11 @@ class TasksExtendedAttributesTest extends BaseTestContext
         $newExtendedAttribute->setAlias("New Flag Field");
         
         $response = $this->tasks->putExtendedAttribute(new Requests\PutExtendedAttributeRequest($remoteName, $newExtendedAttribute, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         $task = $response->getTask();
         
         $extendedAttributeValue = new ExtendedAttribute();
@@ -198,15 +200,15 @@ class TasksExtendedAttributesTest extends BaseTestContext
         $task->setExtendedAttributes(array_merge($task->getExtendedAttributes(), array($extendedAttributeValue)));
         
         $response = $this->tasks->putTask(new Requests\PutTaskRequest($remoteName, 27, $task, null, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         
-        Assert::assertEquals(1, count($response->getTask()->getExtendedAttributes()));
-        Assert::assertEquals(188743756, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
-        Assert::assertEquals(true, $response->getTask()->getExtendedAttributes()[0]->getFlagValue());
+        $this->assertEquals(1, count($response->getTask()->getExtendedAttributes()));
+        $this->assertEquals(188743756, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
+        $this->assertEquals(true, $response->getTask()->getExtendedAttributes()[0]->getFlagValue());
     }
     
     public function testEditTaskExtendedAttributeNumericValue()
@@ -222,11 +224,11 @@ class TasksExtendedAttributesTest extends BaseTestContext
         $newExtendedAttribute->setAlias("New Number Field");
         
         $response = $this->tasks->putExtendedAttribute(new Requests\PutExtendedAttributeRequest($remoteName, $newExtendedAttribute, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         $task = $response->getTask();
         
         $extendedAttributeValue = new ExtendedAttribute();
@@ -236,15 +238,15 @@ class TasksExtendedAttributesTest extends BaseTestContext
         $task->setExtendedAttributes(array_merge($task->getExtendedAttributes(), array($extendedAttributeValue)));
         
         $response = $this->tasks->putTask(new Requests\PutTaskRequest($remoteName, 27, $task, null, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         
-        Assert::assertEquals(1, count($response->getTask()->getExtendedAttributes()));
-        Assert::assertEquals(188743987, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
-        Assert::assertEquals(11.9, $response->getTask()->getExtendedAttributes()[0]->getNumericValue());
+        $this->assertEquals(1, count($response->getTask()->getExtendedAttributes()));
+        $this->assertEquals(188743987, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
+        $this->assertEquals(11.9, $response->getTask()->getExtendedAttributes()[0]->getNumericValue());
     }
     
     public function testEditTaskExtendedAttributeCostValue()
@@ -260,11 +262,11 @@ class TasksExtendedAttributesTest extends BaseTestContext
         $newExtendedAttribute->setAlias("New Cost Field");
         
         $response = $this->tasks->putExtendedAttribute(new Requests\PutExtendedAttributeRequest($remoteName, $newExtendedAttribute, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         $task = $response->getTask();
         
         $extendedAttributeValue = new ExtendedAttribute();
@@ -274,15 +276,15 @@ class TasksExtendedAttributesTest extends BaseTestContext
         $task->setExtendedAttributes(array_merge($task->getExtendedAttributes(), array($extendedAttributeValue)));
         
         $response = $this->tasks->putTask(new Requests\PutTaskRequest($remoteName, 27, $task, null, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         
-        Assert::assertEquals(1, count($response->getTask()->getExtendedAttributes()));
-        Assert::assertEquals(188743941, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
-        Assert::assertEquals(99.99, $response->getTask()->getExtendedAttributes()[0]->getNumericValue());
+        $this->assertEquals(1, count($response->getTask()->getExtendedAttributes()));
+        $this->assertEquals(188743941, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
+        $this->assertEquals(99.99, $response->getTask()->getExtendedAttributes()[0]->getNumericValue());
     }
     
     public function testEditTaskExtendedAttributeTextValue()
@@ -298,11 +300,11 @@ class TasksExtendedAttributesTest extends BaseTestContext
         $newExtendedAttribute->setAlias("New Cost Field");
         
         $response = $this->tasks->putExtendedAttribute(new Requests\PutExtendedAttributeRequest($remoteName, $newExtendedAttribute, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         $task = $response->getTask();
         
         $extendedAttributeValue = new ExtendedAttribute();
@@ -312,14 +314,14 @@ class TasksExtendedAttributesTest extends BaseTestContext
         $task->setExtendedAttributes(array_merge($task->getExtendedAttributes(), array($extendedAttributeValue)));
         
         $response = $this->tasks->putTask(new Requests\PutTaskRequest($remoteName, 27, $task, null, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 27, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
         
-        Assert::assertEquals(1, count($response->getTask()->getExtendedAttributes()));
-        Assert::assertEquals(188743737, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
-        Assert::assertEquals("test text value", $response->getTask()->getExtendedAttributes()[0]->getTextValue());
+        $this->assertEquals(1, count($response->getTask()->getExtendedAttributes()));
+        $this->assertEquals(188743737, $response->getTask()->getExtendedAttributes()[0]->getFieldId());
+        $this->assertEquals("test text value", $response->getTask()->getExtendedAttributes()[0]->getTextValue());
     }
 }

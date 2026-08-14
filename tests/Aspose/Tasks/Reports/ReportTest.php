@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
 * --------------------------------------------------------------------------------------------------------------------
 * <copyright company="Aspose" file="ReportTest.php">
@@ -26,13 +26,13 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Reports;
 
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests\GetRiskAnalysisReportRequest;
 use Aspose\Tasks\Model\Requests\GetCriticalPathRequest;
 use Aspose\Tasks\Model\Requests\GetReportPdfRequest;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class ReportTest extends BaseTestContext
 {
@@ -43,8 +43,8 @@ class ReportTest extends BaseTestContext
         
         $response = $this->tasks->getReportPdf(new GetReportPdfRequest($remoteName, Model\ReportType::MILESTONES, self::$storageName, $folder));
         
-        Assert::assertNotNull($response);
-        Assert::assertEquals("%PDF", $response->fread(4));
+        $this->assertNotNull($response);
+        $this->assertEquals("%PDF", $response->fread(4));
     }
     
     public function testGetCriticalPath()
@@ -53,10 +53,10 @@ class ReportTest extends BaseTestContext
         $folder = $this->uploadTestFile("Home move plan.mpp", $remoteName, '');
         $response = $this->tasks->getCriticalPath(new GetCriticalPathRequest($remoteName, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTasks());
-        Assert::assertNotNull($response->getTasks()->getTaskItem());
-        Assert::assertEquals(76, count($response->getTasks()->getTaskItem()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTasks());
+        $this->assertNotNull($response->getTasks()->getTaskItem());
+        $this->assertEquals(76, count($response->getTasks()->getTaskItem()));
     }
     
     public function testGetRiskAnalysisReport()
@@ -74,7 +74,7 @@ class ReportTest extends BaseTestContext
             $folder,
             null));
         
-        Assert::assertNotNull($response);
-        Assert::assertEquals("%PDF", $response->fread(4));
+        $this->assertNotNull($response);
+        $this->assertEquals("%PDF", $response->fread(4));
     }
 }

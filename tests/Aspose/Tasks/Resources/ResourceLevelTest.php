@@ -26,11 +26,11 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Resources;
 
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class ResourceLevelTest extends BaseTestContext
 {
@@ -40,9 +40,9 @@ class ResourceLevelTest extends BaseTestContext
         $folder = $this->uploadTestFile("sample.mpp", $remoteName, '');
 
         $response = $this->tasks->levelTasks(new Requests\LevelTasksRequest($remoteName,null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getAffectedTaskUids());
-        Assert::assertEquals(2, count($response->getAffectedTaskUids()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getAffectedTaskUids());
+        $this->assertEquals(2, count($response->getAffectedTaskUids()));
     }
 
     public function testLevelTasksWithBody()
@@ -55,9 +55,9 @@ class ResourceLevelTest extends BaseTestContext
         $options->setResourceUids(array(2, 999));
 
         $response = $this->tasks->levelTasks(new Requests\LevelTasksRequest($remoteName, $options, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getAffectedTaskUids());
-        Assert::assertEquals(1, count($response->getAffectedTaskUids()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getAffectedTaskUids());
+        $this->assertEquals(1, count($response->getAffectedTaskUids()));
     }
 
     public function testClearLevelingWithoutBody()
@@ -66,7 +66,7 @@ class ResourceLevelTest extends BaseTestContext
         $folder = $this->uploadTestFile("sample.mpp", $remoteName, '');
 
         $response = $this->tasks->clearLeveling(new Requests\ClearLevelingRequest($remoteName,null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
 
     public function testClearLevelingWithBody()
@@ -75,6 +75,6 @@ class ResourceLevelTest extends BaseTestContext
         $folder = $this->uploadTestFile("sample.mpp", $remoteName, '');
 
         $response = $this->tasks->clearLeveling(new Requests\ClearLevelingRequest($remoteName, array(24, 9999), self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
 }

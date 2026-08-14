@@ -26,9 +26,10 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\OutlineCodes;
+
 use Aspose\Tasks\Model\Requests;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class OutlineCodesTest extends BaseTestContext
 {
@@ -38,9 +39,9 @@ class OutlineCodesTest extends BaseTestContext
         $folder = $this->uploadTestFile("NewProductDev.mpp", $remoteName, '');
         
         $response = $this->tasks->getOutlineCodes(new Requests\GetOutlineCodesRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getOutlineCodes());
-        Assert::assertEquals(2, count($response->getOutlineCodes()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getOutlineCodes());
+        $this->assertEquals(2, count($response->getOutlineCodes()->getList()));
     }
     
     public function testGetOutlineCode()
@@ -49,9 +50,9 @@ class OutlineCodesTest extends BaseTestContext
         $folder = $this->uploadTestFile("NewProductDev.mpp", $remoteName, '');
         
         $response = $this->tasks->getOutlineCodeByIndex(new Requests\GetOutlineCodeByIndexRequest($remoteName, 1, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getOutlineCode());
-        Assert::assertEquals("F45D601B-70C5-E311-A5BA-D43D7E937F92", $response->getOutlineCode()->getGuid());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getOutlineCode());
+        $this->assertEquals("F45D601B-70C5-E311-A5BA-D43D7E937F92", $response->getOutlineCode()->getGuid());
     }
     
     public function testDeleteOutlineCodeByIndex()
@@ -60,12 +61,12 @@ class OutlineCodesTest extends BaseTestContext
         $folder = $this->uploadTestFile("NewProductDev.mpp", $remoteName, '');
         
         $response = $this->tasks->deleteOutlineCodeByIndex(new Requests\DeleteOutlineCodeByIndexRequest($remoteName, 1, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getOutlineCodes(new Requests\GetOutlineCodesRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getOutlineCodes());
-        Assert::assertEquals(1, count($response->getOutlineCodes()->getList()));
-        Assert::assertEquals(1, $response->getOutlineCodes()->getList()[0]->getIndex());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getOutlineCodes());
+        $this->assertEquals(1, count($response->getOutlineCodes()->getList()));
+        $this->assertEquals(1, $response->getOutlineCodes()->getList()[0]->getIndex());
     }
 }

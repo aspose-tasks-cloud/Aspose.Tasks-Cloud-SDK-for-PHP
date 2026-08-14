@@ -26,10 +26,10 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Vba;
 
 use Aspose\Tasks\Model\Requests;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class VbaTest extends BaseTestContext
 {
@@ -41,11 +41,11 @@ class VbaTest extends BaseTestContext
         $response = $this->tasks->getVbaProject(new Requests\GetVbaProjectRequest($remoteName, $folder));
         
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getVbaProject());
-        Assert::assertNotNull($response->getVbaProject()->getModules());
-        Assert::assertEquals(8, count($response->getVbaProject()->getModules()));
-        Assert::assertEquals("Module1", $response->getVbaProject()->getModules()[1]->getName());
-        Assert::assertTrue(strpos($response->getVbaProject()->getModules()[1]->getSourceCode(), 'Type MEMORYSTATUS') === 0);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getVbaProject());
+        $this->assertNotNull($response->getVbaProject()->getModules());
+        $this->assertEquals(8, count($response->getVbaProject()->getModules()));
+        $this->assertEquals("Module1", $response->getVbaProject()->getModules()[1]->getName());
+        $this->assertTrue(strpos($response->getVbaProject()->getModules()[1]->getSourceCode(), 'Type MEMORYSTATUS') === 0);
     }
 }

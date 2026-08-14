@@ -26,9 +26,10 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Groups;
+
 use Aspose\Tasks\Model\Requests;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class GroupsTest extends BaseTestContext
 {
@@ -38,10 +39,10 @@ class GroupsTest extends BaseTestContext
         $folder = $this->uploadTestFile("ProjectWithGroups.mpp", $remoteName, '');
 
         $response = $this->tasks->getResourceGroups(new Requests\GetResourceGroupsRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getGroups());
-        Assert::assertNotNull($response->getGroups()->getList());
-        Assert::assertGreaterThan(0, count($response->getGroups()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getGroups());
+        $this->assertNotNull($response->getGroups()->getList());
+        $this->assertGreaterThan(0, count($response->getGroups()->getList()));
     }
 
     public function testGetResourceGroup()
@@ -50,16 +51,16 @@ class GroupsTest extends BaseTestContext
         $folder = $this->uploadTestFile("ProjectWithGroups.mpp", $remoteName, '');
 
         $response = $this->tasks->getResourceGroups(new Requests\GetResourceGroupsRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertGreaterThan(0, count($response->getGroups()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertGreaterThan(0, count($response->getGroups()->getList()));
 
         $groupUid = $response->getGroups()->getList()[0]->getUid();
 
         $response = $this->tasks->getResourceGroup(new Requests\GetResourceGroupRequest($remoteName, $groupUid, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getGroup());
-        Assert::assertEquals($groupUid, $response->getGroup()->getUid());
-        Assert::assertNotNull($response->getGroup()->getName());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getGroup());
+        $this->assertEquals($groupUid, $response->getGroup()->getUid());
+        $this->assertNotNull($response->getGroup()->getName());
     }
 
     public function testGetGroupedResources()
@@ -68,19 +69,19 @@ class GroupsTest extends BaseTestContext
         $folder = $this->uploadTestFile("ProjectWithGroups.mpp", $remoteName, '');
 
         $response = $this->tasks->getResourceGroups(new Requests\GetResourceGroupsRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertGreaterThan(1, count($response->getGroups()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertGreaterThan(1, count($response->getGroups()->getList()));
 
         $groupUid = $response->getGroups()->getList()[1]->getUid();
 
         $response = $this->tasks->getGroupedResources(new Requests\GetGroupedResourcesRequest($remoteName, $groupUid, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getBuckets());
-        Assert::assertGreaterThan(0, count($response->getBuckets()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getBuckets());
+        $this->assertGreaterThan(0, count($response->getBuckets()));
 
         foreach ($response->getBuckets() as $bucket) {
-            Assert::assertNotNull($bucket->getKey());
-            Assert::assertNotNull($bucket->getResources());
+            $this->assertNotNull($bucket->getKey());
+            $this->assertNotNull($bucket->getResources());
         }
     }
 
@@ -90,10 +91,10 @@ class GroupsTest extends BaseTestContext
         $folder = $this->uploadTestFile("ProjectWithGroups.mpp", $remoteName, '');
 
         $response = $this->tasks->getTaskGroups(new Requests\GetTaskGroupsRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getGroups());
-        Assert::assertNotNull($response->getGroups()->getList());
-        Assert::assertGreaterThan(1, count($response->getGroups()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getGroups());
+        $this->assertNotNull($response->getGroups()->getList());
+        $this->assertGreaterThan(1, count($response->getGroups()->getList()));
     }
 
     public function testGetTaskGroup()
@@ -102,18 +103,18 @@ class GroupsTest extends BaseTestContext
         $folder = $this->uploadTestFile("ProjectWithGroups.mpp", $remoteName, '');
 
         $response = $this->tasks->getTaskGroups(new Requests\GetTaskGroupsRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertGreaterThan(1, count($response->getGroups()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertGreaterThan(1, count($response->getGroups()->getList()));
 
         $groupUid = $response->getGroups()->getList()[0]->getUid();
 
         $response = $this->tasks->getTaskGroup(new Requests\GetTaskGroupRequest($remoteName, $groupUid, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getGroup());
-        Assert::assertEquals($groupUid, $response->getGroup()->getUid());
-        Assert::assertEquals("Percent complete", $response->getGroup()->getName());
-        Assert::assertNotNull($response->getGroup()->getGroupCriteria());
-        Assert::assertGreaterThan(0, count($response->getGroup()->getGroupCriteria()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getGroup());
+        $this->assertEquals($groupUid, $response->getGroup()->getUid());
+        $this->assertEquals("Percent complete", $response->getGroup()->getName());
+        $this->assertNotNull($response->getGroup()->getGroupCriteria());
+        $this->assertGreaterThan(0, count($response->getGroup()->getGroupCriteria()));
     }
 
     public function testGetGroupedTasks()
@@ -122,19 +123,19 @@ class GroupsTest extends BaseTestContext
         $folder = $this->uploadTestFile("ProjectWithGroups.mpp", $remoteName, '');
 
         $response = $this->tasks->getTaskGroups(new Requests\GetTaskGroupsRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertGreaterThan(1, count($response->getGroups()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertGreaterThan(1, count($response->getGroups()->getList()));
 
         $groupUid = $response->getGroups()->getList()[0]->getUid();
 
         $response = $this->tasks->getGroupedTasks(new Requests\GetGroupedTasksRequest($remoteName, $groupUid, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getBuckets());
-        Assert::assertGreaterThan(0, count($response->getBuckets()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getBuckets());
+        $this->assertGreaterThan(0, count($response->getBuckets()));
 
         foreach ($response->getBuckets() as $bucket) {
-            Assert::assertNotNull($bucket->getKey());
-            Assert::assertNotNull($bucket->getTasks());
+            $this->assertNotNull($bucket->getKey());
+            $this->assertNotNull($bucket->getTasks());
         }
     }
 }

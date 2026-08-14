@@ -26,11 +26,11 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\TimephasedData;
 
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class TimephasedDataTest extends BaseTestContext
 {
@@ -46,17 +46,17 @@ class TimephasedDataTest extends BaseTestContext
             null,
             $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getItems());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getItems());
         
         $timephasedDataItems = $response->getItems();
-        Assert::assertNotNull($timephasedDataItems);
-        Assert::assertTrue(count($timephasedDataItems) > 0);
+        $this->assertNotNull($timephasedDataItems);
+        $this->assertTrue(count($timephasedDataItems) > 0);
         
         for ($i = 0; $i < count($timephasedDataItems); $i++)
         {
-            Assert::assertEquals(Model\TimephasedDataType::TASK_WORK, $timephasedDataItems[$i]->getTimephasedDataType());
-            Assert::assertEquals(27, $timephasedDataItems[$i]->getUid());
+            $this->assertEquals(Model\TimephasedDataType::TASK_WORK, $timephasedDataItems[$i]->getTimephasedDataType());
+            $this->assertEquals(27, $timephasedDataItems[$i]->getUid());
         }
     }
     
@@ -72,17 +72,17 @@ class TimephasedDataTest extends BaseTestContext
             null,
             $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getItems());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getItems());
         
         $timephasedDataItems = $response->getItems();
-        Assert::assertNotNull($timephasedDataItems);
-        Assert::assertTrue(count($timephasedDataItems) > 0);
+        $this->assertNotNull($timephasedDataItems);
+        $this->assertTrue(count($timephasedDataItems) > 0);
         
         for ($i = 0; $i < count($timephasedDataItems); $i++)
         {
-            Assert::assertEquals(Model\TimephasedDataType::RESOURCE_WORK, $timephasedDataItems[$i]->getTimephasedDataType());
-            Assert::assertEquals(1, $timephasedDataItems[$i]->getUid());
+            $this->assertEquals(Model\TimephasedDataType::RESOURCE_WORK, $timephasedDataItems[$i]->getTimephasedDataType());
+            $this->assertEquals(1, $timephasedDataItems[$i]->getUid());
         }
     }
     
@@ -98,17 +98,17 @@ class TimephasedDataTest extends BaseTestContext
             null,
             $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getItems());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getItems());
         
         $timephasedDataItems = $response->getItems();
-        Assert::assertNotNull($timephasedDataItems);
-        Assert::assertTrue(count($timephasedDataItems) > 0);
+        $this->assertNotNull($timephasedDataItems);
+        $this->assertTrue(count($timephasedDataItems) > 0);
         
         for ($i = 0; $i < count($timephasedDataItems); $i++)
         {
-            Assert::assertEquals(Model\TimephasedDataType::ASSIGNMENT_WORK, $timephasedDataItems[$i]->getTimephasedDataType());
-            Assert::assertEquals(66, $timephasedDataItems[$i]->getUid());
+            $this->assertEquals(Model\TimephasedDataType::ASSIGNMENT_WORK, $timephasedDataItems[$i]->getTimephasedDataType());
+            $this->assertEquals(66, $timephasedDataItems[$i]->getUid());
         }
     }
 }

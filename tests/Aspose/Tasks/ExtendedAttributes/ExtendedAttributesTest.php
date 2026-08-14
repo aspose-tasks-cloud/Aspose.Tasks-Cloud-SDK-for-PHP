@@ -26,11 +26,12 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\ExtendedAttributes;
+
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests;
 use Aspose\Tasks\Model\CalculationType;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class ExtendedAttributesTest extends BaseTestContext
 {
@@ -40,9 +41,9 @@ class ExtendedAttributesTest extends BaseTestContext
         $folder = $this->uploadTestFile("NewProductDev.mpp", $remoteName, '');
         
         $response = $this->tasks->getExtendedAttributes(new Requests\GetExtendedAttributesRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getExtendedAttributes());
-        Assert::assertEquals(2, count($response->getExtendedAttributes()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getExtendedAttributes());
+        $this->assertEquals(2, count($response->getExtendedAttributes()->getList()));
     }
     
     public function testGetExtendedAttribute()
@@ -51,14 +52,14 @@ class ExtendedAttributesTest extends BaseTestContext
         $folder = $this->uploadTestFile("NewProductDev.mpp", $remoteName, '');
         
         $response = $this->tasks->getExtendedAttributeByIndex(new Requests\GetExtendedAttributeByIndexRequest($remoteName, 1, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getExtendedAttribute());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getExtendedAttribute());
         $extendedAttribute = $response->getExtendedAttribute();
-        Assert::assertEquals("Text1", $extendedAttribute->getFieldName());
-        Assert::assertEquals(Model\CalculationType::LOOKUP, $extendedAttribute->getCalculationType());
-        Assert::assertEquals(1, count($extendedAttribute->getValueList()));
-        Assert::assertEquals("descr", $extendedAttribute->getValueList()[0]->getDescription());
-        Assert::assertEquals(1, $extendedAttribute->getValueList()[0]->getId());
+        $this->assertEquals("Text1", $extendedAttribute->getFieldName());
+        $this->assertEquals(Model\CalculationType::LOOKUP, $extendedAttribute->getCalculationType());
+        $this->assertEquals(1, count($extendedAttribute->getValueList()));
+        $this->assertEquals("descr", $extendedAttribute->getValueList()[0]->getDescription());
+        $this->assertEquals(1, $extendedAttribute->getValueList()[0]->getId());
     }
     
     public function testAddExtendedAttributeDefinition()
@@ -86,34 +87,34 @@ class ExtendedAttributesTest extends BaseTestContext
         
         $response = $this->tasks->putExtendedAttribute(new Requests\PutExtendedAttributeRequest($remoteName, $newExtendedAttribute, null, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getExtendedAttribute());
-        Assert::assertEquals("Text3", $response->getExtendedAttribute()->getFieldName());
-        Assert::assertEquals("New Field", $response->getExtendedAttribute()->getAlias());
-        Assert::assertEquals("188743737", $response->getExtendedAttribute()->getFieldId());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getExtendedAttribute());
+        $this->assertEquals("Text3", $response->getExtendedAttribute()->getFieldName());
+        $this->assertEquals("New Field", $response->getExtendedAttribute()->getAlias());
+        $this->assertEquals("188743737", $response->getExtendedAttribute()->getFieldId());
         
        
         $addedAttributeIndex = $response->getExtendedAttribute()->getIndex();
         
         $response = $this->tasks->getExtendedAttributeByIndex(new Requests\GetExtendedAttributeByIndexRequest($remoteName, $addedAttributeIndex, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getExtendedAttribute());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getExtendedAttribute());
         $extendedAttribute = $response->getExtendedAttribute();
         
-        Assert::assertEquals("188743737", $extendedAttribute->getFieldId());
-        Assert::assertEquals("Text3", $extendedAttribute->getFieldName());
-        Assert::assertEquals(Model\CustomFieldType::TEXT, $extendedAttribute->getCfType());
-        Assert::assertEquals("New Field", $extendedAttribute->getAlias());
+        $this->assertEquals("188743737", $extendedAttribute->getFieldId());
+        $this->assertEquals("Text3", $extendedAttribute->getFieldName());
+        $this->assertEquals(Model\CustomFieldType::TEXT, $extendedAttribute->getCfType());
+        $this->assertEquals("New Field", $extendedAttribute->getAlias());
         $valueList = $extendedAttribute->getValueList();
-        Assert::assertEquals(2, count($valueList));
+        $this->assertEquals(2, count($valueList));
         
-        Assert::assertEquals(111, $valueList[0]->getId());
-        Assert::assertEquals("Internal", $valueList[0]->getVal());
-        Assert::assertEquals("descr1", $valueList[0]->getDescription());
+        $this->assertEquals(111, $valueList[0]->getId());
+        $this->assertEquals("Internal", $valueList[0]->getVal());
+        $this->assertEquals("descr1", $valueList[0]->getDescription());
         
-        Assert::assertEquals(112, $valueList[1]->getId());
-        Assert::assertEquals("External", $valueList[1]->getVal());
-        Assert::assertEquals("descr2", $valueList[1]->getDescription());
+        $this->assertEquals(112, $valueList[1]->getId());
+        $this->assertEquals("External", $valueList[1]->getVal());
+        $this->assertEquals("descr2", $valueList[1]->getDescription());
     }
     
     public function testEditExtendedAttributeDefinition()
@@ -122,8 +123,8 @@ class ExtendedAttributesTest extends BaseTestContext
         $folder = $this->uploadTestFile("NewProductDev.mpp", $remoteName, '');
         
         $response = $this->tasks->getExtendedAttributeByIndex(new Requests\GetExtendedAttributeByIndexRequest($remoteName, 1, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getExtendedAttribute());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getExtendedAttribute());
         
         $extendedAttributeToEdit = $response->getExtendedAttribute();
         $extendedAttributeToEdit->setCalculationType(CalculationType::NONE);
@@ -134,23 +135,23 @@ class ExtendedAttributesTest extends BaseTestContext
         $extendedAttributeToEdit->setAlias("Edited field");
         
         $response = $this->tasks->putExtendedAttribute(new Requests\PutExtendedAttributeRequest($remoteName, $extendedAttributeToEdit, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getExtendedAttribute());
-        Assert::assertEquals("Text1", $response->getExtendedAttribute()->getFieldName());
-        Assert::assertEquals("Edited field", $response->getExtendedAttribute()->getAlias());
-        Assert::assertEquals("188743731", $response->getExtendedAttribute()->getFieldId());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getExtendedAttribute());
+        $this->assertEquals("Text1", $response->getExtendedAttribute()->getFieldName());
+        $this->assertEquals("Edited field", $response->getExtendedAttribute()->getAlias());
+        $this->assertEquals("188743731", $response->getExtendedAttribute()->getFieldId());
         
         $response = $this->tasks->getExtendedAttributeByIndex(new Requests\GetExtendedAttributeByIndexRequest($remoteName, $response->getExtendedAttribute()->getIndex(), self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getExtendedAttribute());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getExtendedAttribute());
         
         $extendedAttribute = $response->getExtendedAttribute();
         
-        Assert::assertEquals("188743731", $extendedAttribute->getFieldId());
-        Assert::assertEquals("Text1", $extendedAttribute->getFieldName());
-        Assert::assertEquals(Model\CustomFieldType::TEXT, $extendedAttribute->getCfType());
-        Assert::assertEquals("Edited field", $extendedAttribute->getAlias());
-        Assert::assertEquals(0, count($extendedAttribute->getValueList()));
+        $this->assertEquals("188743731", $extendedAttribute->getFieldId());
+        $this->assertEquals("Text1", $extendedAttribute->getFieldName());
+        $this->assertEquals(Model\CustomFieldType::TEXT, $extendedAttribute->getCfType());
+        $this->assertEquals("Edited field", $extendedAttribute->getAlias());
+        $this->assertEquals(0, count($extendedAttribute->getValueList()));
     }
     
     public function testDeleteExtendedAttribute()
@@ -160,12 +161,12 @@ class ExtendedAttributesTest extends BaseTestContext
         
         $response = $this->tasks->deleteExtendedAttributeByIndex(new Requests\DeleteExtendedAttributeByIndexRequest($remoteName, 1, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getExtendedAttributes(new Requests\GetExtendedAttributesRequest($remoteName, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getExtendedAttributes());
-        Assert::assertEquals(1, count($response->getExtendedAttributes()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getExtendedAttributes());
+        $this->assertEquals(1, count($response->getExtendedAttributes()->getList()));
     }
 }

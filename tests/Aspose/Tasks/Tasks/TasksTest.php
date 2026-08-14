@@ -26,12 +26,13 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-require_once realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php";
+namespace Aspose\Tasks\Tests\Tasks;
 
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests;
 use Aspose\Tasks\Model\TaskCreationRequest;
-use PHPUnit\Framework\Assert;
+use Aspose\Tasks\Tests\BaseTestContext;
+use DateTime;
 
 class TasksTest extends BaseTestContext
 {
@@ -41,9 +42,9 @@ class TasksTest extends BaseTestContext
         $folder = $this->uploadTestFile("Project2016.mpp", $remoteName, '');
 
         $response = $this->tasks->getTasks(new Requests\GetTasksRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTasks());
-        Assert::assertEquals(6, count($response->getTasks()->getTaskItem()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTasks());
+        $this->assertEquals(6, count($response->getTasks()->getTaskItem()));
 
         foreach ($response->getTasks()->getTaskItem() as $t) {
             if ($t->getUid() == 5) {
@@ -52,11 +53,11 @@ class TasksTest extends BaseTestContext
             }
         }
 
-        Assert::assertNotNull($task);
-        Assert::assertEquals("Summary Task 1", $task->getName());
-        Assert::assertEquals("2015-08-03T08:00:00", $task->getStart()->format("Y-m-d\\TH:i:s"));
-        Assert::assertEquals("2015-08-06T17:00:00", $task->getFinish()->format("Y-m-d\\TH:i:s"));
-        Assert::assertEquals("/5", $task->getLink()->getHref());
+        $this->assertNotNull($task);
+        $this->assertEquals("Summary Task 1", $task->getName());
+        $this->assertEquals("2015-08-03T08:00:00", $task->getStart()->format("Y-m-d\\TH:i:s"));
+        $this->assertEquals("2015-08-06T17:00:00", $task->getFinish()->format("Y-m-d\\TH:i:s"));
+        $this->assertEquals("/5", $task->getLink()->getHref());
     }
 
     public function testGetTaskByUid()
@@ -65,15 +66,15 @@ class TasksTest extends BaseTestContext
         $folder = $this->uploadTestFile("Project2016.mpp", $remoteName, '');
 
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 5, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
-        Assert::assertEquals(5, $response->getTask()->getUid());
-        Assert::assertTrue(array(1, 2, 3, 4) == $response->getTask()->getSubtasksUids());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
+        $this->assertEquals(5, $response->getTask()->getUid());
+        $this->assertTrue(array(1, 2, 3, 4) == $response->getTask()->getSubtasksUids());
 
-        Assert::assertEquals("2015-08-03T08:00:00", $response->getTask()->getStart()->format("Y-m-d\\TH:i:s"));
-        Assert::assertEquals("2015-08-06T17:00:00", $response->getTask()->getFinish()->format("Y-m-d\\TH:i:s"));
-        Assert::assertEquals(1920, $response->getTask()->getWorkVariance());
-        Assert::assertEquals("1.08:00:00", $response->getTask()->getRemainingWork());
+        $this->assertEquals("2015-08-03T08:00:00", $response->getTask()->getStart()->format("Y-m-d\\TH:i:s"));
+        $this->assertEquals("2015-08-06T17:00:00", $response->getTask()->getFinish()->format("Y-m-d\\TH:i:s"));
+        $this->assertEquals(1920, $response->getTask()->getWorkVariance());
+        $this->assertEquals("1.08:00:00", $response->getTask()->getRemainingWork());
     }
 
     public function testDeleteTask()
@@ -82,17 +83,17 @@ class TasksTest extends BaseTestContext
         $folder = $this->uploadTestFile("Project2016.mpp", $remoteName, '');
 
         $response = $this->tasks->deleteTask(new Requests\DeleteTaskRequest($remoteName, 4, self::$storageName, $folder, null));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
 
         $response = $this->tasks->getTasks(new Requests\GetTasksRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTasks());
-        Assert::assertNotNull($response->getTasks()->getTaskItem());
-        Assert::assertEquals(5, count($response->getTasks()->getTaskItem()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTasks());
+        $this->assertNotNull($response->getTasks()->getTaskItem());
+        $this->assertEquals(5, count($response->getTasks()->getTaskItem()));
 
         foreach ($response->getTasks()->getTaskItem() as $t) {
             if ($t->getUid() == 4) {
-                Assert::fail("Task with Uid 4 should not be present in project.");
+                $this->fail("Task with Uid 4 should not be present in project.");
             }
         }
     }
@@ -119,9 +120,9 @@ class TasksTest extends BaseTestContext
         );
 
         $response = $this->tasks->postTasks($request);
-        Assert::assertEquals(201, $response->getCode());
-        Assert::assertNotNull($response->getTasks());
-        Assert::assertEquals(2, count($response->getTasks()->getTaskItem()));
+        $this->assertEquals(201, $response->getCode());
+        $this->assertNotNull($response->getTasks());
+        $this->assertEquals(2, count($response->getTasks()->getTaskItem()));
 
         $filteredTasksItems = array_filter(
             $response->getTasks()->getTaskItem(),
@@ -132,8 +133,8 @@ class TasksTest extends BaseTestContext
         $newSubtaskUid = array_pop($filteredTasksItems)->getUid();
 
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, $secondTask->getParentTaskUid(), self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertContains($newSubtaskUid, $response->getTask()->getSubtasksUids());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertContains($newSubtaskUid, $response->getTask()->getSubtasksUids());
     }
 
     public function testAddTask()
@@ -142,13 +143,13 @@ class TasksTest extends BaseTestContext
         $folder = $this->uploadTestFile("Project2016.mpp", $remoteName, '');
 
         $response = $this->tasks->postTask(new Requests\PostTaskRequest($remoteName, "New task name", 4, null, self::$storageName, $folder));
-        Assert::assertEquals(201, $response->getCode());
-        Assert::assertNotNull($response->getTaskItem());
+        $this->assertEquals(201, $response->getCode());
+        $this->assertNotNull($response->getTaskItem());
         $newTaskUid = $response->getTaskItem()->getUid();
 
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, $newTaskUid, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
     }
 
     public function testEditTask()
@@ -157,8 +158,8 @@ class TasksTest extends BaseTestContext
         $folder = $this->uploadTestFile("Project2016.mpp", $remoteName, '');
 
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 4, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
 
         $task = $response->getTask();
         $task->setName("Modified task name");
@@ -167,16 +168,16 @@ class TasksTest extends BaseTestContext
         $task->setManualFinish(new DateTime("2015-10-01T17:15:00"));
 
         $response = $this->tasks->putTask(new Requests\PutTaskRequest($remoteName, 4, $task, Model\CalculationMode::NONE, false, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
 
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 4, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
-        Assert::assertEquals("Modified task name", $response->getTask()->getName());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
+        $this->assertEquals("Modified task name", $response->getTask()->getName());
 
-        Assert::assertTrue($response->getTask()->getIsManual());
-        Assert::assertEquals("2015-10-01T09:15:00", $response->getTask()->getManualStart()->format("Y-m-d\\TH:i:s"));
-        Assert::assertEquals("2015-10-01T17:15:00", $response->getTask()->getManualFinish()->format("Y-m-d\\TH:i:s"));
+        $this->assertTrue($response->getTask()->getIsManual());
+        $this->assertEquals("2015-10-01T09:15:00", $response->getTask()->getManualStart()->format("Y-m-d\\TH:i:s"));
+        $this->assertEquals("2015-10-01T17:15:00", $response->getTask()->getManualFinish()->format("Y-m-d\\TH:i:s"));
     }
 
     public function testGetTaskAssignments()
@@ -186,8 +187,8 @@ class TasksTest extends BaseTestContext
 
         $response = $this->tasks->getTaskAssignments(new Requests\GetTaskAssignmentsRequest($remoteName, 1, self::$storageName, $folder));
 
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getAssignments());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getAssignments());
     }
 
     public function testMoveTask()
@@ -196,19 +197,19 @@ class TasksTest extends BaseTestContext
         $folder = $this->uploadTestFile("sample.mpp", $remoteName, '');
 
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 6, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
-        Assert::assertNotNull($response->getTask()->getSubtasksUids());
-        Assert::isFalse(in_array(10, $response->getTask()->getSubtasksUids()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
+        $this->assertNotNull($response->getTask()->getSubtasksUids());
+        $this->isFalse(in_array(10, $response->getTask()->getSubtasksUids()));
 
         $response = $this->tasks->putMoveTask(new Requests\PutMoveTaskRequest($remoteName, 10, 6, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
 
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 6, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
-        Assert::assertNotNull($response->getTask()->getSubtasksUids());
-        Assert::isTrue(in_array(10, $response->getTask()->getSubtasksUids()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
+        $this->assertNotNull($response->getTask()->getSubtasksUids());
+        $this->isTrue(in_array(10, $response->getTask()->getSubtasksUids()));
     }
 
     public function testMoveTaskToSibling()
@@ -217,29 +218,30 @@ class TasksTest extends BaseTestContext
         $folder = $this->uploadTestFile("NewProductDev.mpp", $remoteName, '');
 
         $response = $this->tasks->putMoveTaskToSibling(new Requests\PutMoveTaskToSiblingRequest($remoteName, 41, 40, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
 
         $response = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, 38, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
-        Assert::assertNotNull($response->getTask()->getSubtasksUids());
-        Assert::isTrue(array(39, 41, 40) === $response->getTask()->getSubtasksUids());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
+        $this->assertNotNull($response->getTask()->getSubtasksUids());
+        $this->isTrue(array(39, 41, 40) === $response->getTask()->getSubtasksUids());
     }
 
     public function testMoveTaskToSiblingError()
     {
         $remoteName = "testMoveTaskToSiblingError.mpp";
         $folder = $this->uploadTestFile("NewProductDev.mpp", $remoteName, '');
+        $catched = false;
 
         try {
             $response = $this->tasks->putMoveTaskToSibling(new Requests\PutMoveTaskToSiblingRequest($remoteName, 99999, -1, null, self::$storageName, $folder));
-        } catch (Aspose\Tasks\ApiException $e) {
-            Assert::assertEquals(404, $e->getCode());
+        } catch (\Aspose\Tasks\ApiException $e) {
+            $this->assertEquals(404, $e->getCode());
             $errorObject = json_decode($e->getResponseBody(), true);
-            Assert::assertEquals("TaskDoesntExist", $errorObject["Error"]["Code"]);
+            $this->assertEquals("TaskDoesntExist", $errorObject["Error"]["Code"]);
             $catched = true;
         }
 
-        Assert::isTrue($catched);
+        $this->isTrue($catched);
     }
 }

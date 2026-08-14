@@ -67,9 +67,9 @@ class TasksApi
      */
     public function __construct(ClientInterface $client = null, Configuration $config = null, HeaderSelector $selector = null)
     {
-        $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
         $this->headerSelector = $selector ?: new HeaderSelector();
+        $this->client = $client ?: new Client();
         $this->_requestToken();
     }
 
@@ -87,7 +87,7 @@ class TasksApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    private function _createHttpClientOption() 
+    private function _createHttpClientOption()
     {
         $options = [];
         if ($this->config->getDebug()) {
@@ -155,7 +155,7 @@ class TasksApi
     			$tempBody = "\"" . $bodyParameterValue . "\"";
             }
             elseif($bodyParameterValue instanceof \DateTime) {
-            	$tempBody = "\"" . $bodyParameterValue->format(\DATE_ISO8601) . "\"";
+            	$tempBody = "\"" . $bodyParameterValue->format(\DateTime::ISO8601) . "\"";
             } elseif (is_array($bodyParameterValue)) {
                 $tempBody = '[ ' . implode(', ', $bodyParameterValue) . ' ]';
             }
@@ -174,7 +174,7 @@ class TasksApi
         $requestUrl = $this->config->getHost() . "/connect/token";
         $postData = "grant_type=client_credentials" . "&client_id=" . $this->config->getAppSid() . "&client_secret=" . $this->config->getAppKey();
         $header = ["Content-Type" => "application/x-www-form-urlencoded"];
-        $response = $this->client->send(new Request('POST', $requestUrl, $header, $postData));
+        $response = $this->client->request('POST', $requestUrl, ['headers' => $header, 'body' => $postData]);
         $result = json_decode($response->getBody()->getContents(), true);
         $this->config->setAccessToken($result["access_token"]);
     }

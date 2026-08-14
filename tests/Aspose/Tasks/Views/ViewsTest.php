@@ -26,11 +26,11 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Views;
 
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class ViewsTest extends BaseTestContext
 {
@@ -44,16 +44,16 @@ class ViewsTest extends BaseTestContext
             null,
             $folder));
 
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getViews());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getViews());
 
         $firstView = $response->getViews()[0];
-        Assert::assertNotNull($firstView);
-        Assert::assertEquals(true, $firstView->getShowInMenu());
-        Assert::assertEquals(Model\ItemType::TASK_ITEM, $firstView->getType());
-        Assert::assertEquals(Model\ViewScreen::GANTT, $firstView->getScreen());
-        Assert::assertEquals("&Gantt Chart", $firstView->getName());
-        Assert::assertEquals(1, $firstView->getUid());
+        $this->assertNotNull($firstView);
+        $this->assertEquals(true, $firstView->getShowInMenu());
+        $this->assertEquals(Model\ItemType::TASK_ITEM, $firstView->getType());
+        $this->assertEquals(Model\ViewScreen::GANTT, $firstView->getScreen());
+        $this->assertEquals("&Gantt Chart", $firstView->getName());
+        $this->assertEquals(1, $firstView->getUid());
     }
 
     public function testGetAllTableTextStyles()
@@ -67,8 +67,8 @@ class ViewsTest extends BaseTestContext
             null,
             $folder));
 
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertEquals(8, count($response->getItems()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals(8, count($response->getItems()));
     }
 
     public function testGetTableTextStyle()
@@ -84,16 +84,16 @@ class ViewsTest extends BaseTestContext
             null,
             $folder));
 
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         /** @var Model\TableTextStyle $tableTextStyle */
         $tableTextStyle = $response->getTableTextStyle();
-        Assert::assertNotNull($tableTextStyle);;
-        Assert::assertEquals(29, $tableTextStyle->getRowUid());
-        Assert::assertEquals(Model\Field::UNDEFINED, $tableTextStyle->getField());
-        Assert::assertEquals(Model\TextItemType::ALLOCATED, $tableTextStyle->getItemType());
-        Assert::assertEquals(Model\Colors::TRANSPARENT, $tableTextStyle->getColor());
-        Assert::assertEquals(Model\BackgroundPattern::HOLLOW, $tableTextStyle->getBackgroundPattern());
-        Assert::assertEquals(Model\Colors::TRANSPARENT, $tableTextStyle->getBackgroundColor());
+        $this->assertNotNull($tableTextStyle);;
+        $this->assertEquals(29, $tableTextStyle->getRowUid());
+        $this->assertEquals(Model\Field::UNDEFINED, $tableTextStyle->getField());
+        $this->assertEquals(Model\TextItemType::ALLOCATED, $tableTextStyle->getItemType());
+        $this->assertEquals(Model\Colors::TRANSPARENT, $tableTextStyle->getColor());
+        $this->assertEquals(Model\BackgroundPattern::HOLLOW, $tableTextStyle->getBackgroundPattern());
+        $this->assertEquals(Model\Colors::TRANSPARENT, $tableTextStyle->getBackgroundColor());
     }
 
     public function testCreateTableTextStyle()
@@ -118,7 +118,7 @@ class ViewsTest extends BaseTestContext
 
         /** @var Model\AsposeResponse $createResponse */
         $createResponse = $this->tasks->createTableTextStyle($createRequest);
-        Assert::assertEquals(201, $createResponse->getCode());
+        $this->assertEquals(201, $createResponse->getCode());
 
         /** @var Model\TableTextStyleResponse $getResponse */
         $getResponse = $this->tasks->getTableTextStyle(new Requests\GetTableTextStyleRequest($remoteName,
@@ -130,12 +130,12 @@ class ViewsTest extends BaseTestContext
 
         /** @var Model\TableTextStyle $savedTableTextStyle */
         $savedTableTextStyle = $getResponse->getTableTextStyle();
-        Assert::assertEquals($newTableTextStyle->getRowUid(), $savedTableTextStyle->getRowUid());
-        Assert::assertEquals($newTableTextStyle->getField(), $savedTableTextStyle->getField());
-        Assert::assertEquals($newTableTextStyle->getItemType(), $savedTableTextStyle->getItemType());
-        Assert::assertEquals($newTableTextStyle->getColor(), $savedTableTextStyle->getColor());
-        Assert::assertEquals($newTableTextStyle->getBackgroundPattern(), $savedTableTextStyle->getBackgroundPattern());
-        Assert::assertEquals($newTableTextStyle->getBackgroundColor(), $savedTableTextStyle->getBackgroundColor());
+        $this->assertEquals($newTableTextStyle->getRowUid(), $savedTableTextStyle->getRowUid());
+        $this->assertEquals($newTableTextStyle->getField(), $savedTableTextStyle->getField());
+        $this->assertEquals($newTableTextStyle->getItemType(), $savedTableTextStyle->getItemType());
+        $this->assertEquals($newTableTextStyle->getColor(), $savedTableTextStyle->getColor());
+        $this->assertEquals($newTableTextStyle->getBackgroundPattern(), $savedTableTextStyle->getBackgroundPattern());
+        $this->assertEquals($newTableTextStyle->getBackgroundColor(), $savedTableTextStyle->getBackgroundColor());
     }
 
     public function testUpdateTableTextStyle()
@@ -151,8 +151,8 @@ class ViewsTest extends BaseTestContext
             $folder);
         /** @var Model\TableTextStyleResponse $getResponse */
         $getResponse = $this->tasks->getTableTextStyle($getRequest);
-        Assert::assertEquals(Model\Colors::TRANSPARENT, $getResponse->getTableTextStyle()->getColor());
-        Assert::assertEquals(Model\Colors::TRANSPARENT, $getResponse->getTableTextStyle()->getBackgroundColor());
+        $this->assertEquals(Model\Colors::TRANSPARENT, $getResponse->getTableTextStyle()->getColor());
+        $this->assertEquals(Model\Colors::TRANSPARENT, $getResponse->getTableTextStyle()->getBackgroundColor());
 
         $updateRequest = new Requests\UpdateTableTextStyleRequest($remoteName,
             1,
@@ -163,14 +163,14 @@ class ViewsTest extends BaseTestContext
 
         /** @var Model\AsposeResponse $updateResponse */
         $updateResponse = $this->tasks->updateTableTextStyle($updateRequest);
-        Assert::assertEquals(200, $updateResponse->getCode());
+        $this->assertEquals(200, $updateResponse->getCode());
 
         $getResponse = $this->tasks->getTableTextStyle($getRequest);
 
         /** @var Model\TableTextStyle $savedTableTextStyle */
         $savedTableTextStyle = $getResponse->getTableTextStyle();
-        Assert::assertEquals($updateRequest->get_table_text_style()->getColor(), $savedTableTextStyle->getColor());
-        Assert::assertEquals($updateRequest->get_table_text_style()->getBackgroundColor(), $savedTableTextStyle->getBackgroundColor());
+        $this->assertEquals($updateRequest->get_table_text_style()->getColor(), $savedTableTextStyle->getColor());
+        $this->assertEquals($updateRequest->get_table_text_style()->getBackgroundColor(), $savedTableTextStyle->getBackgroundColor());
     }
 
     public function testDeleteTableTextStyle()
@@ -185,7 +185,7 @@ class ViewsTest extends BaseTestContext
         /** @var Model\TableTextStylesResponse $getResponse */
         $getResponse = $this->tasks->getAllTableTextStyles($getRequest);
 
-        Assert::assertEquals(8, count($getResponse->getItems()));
+        $this->assertEquals(8, count($getResponse->getItems()));
 
         /** @var Model\AsposeResponse $deleteResponse */
         $deleteResponse = $this->tasks->deleteTableTextStyle(new Requests\DeleteTableTextStyleRequest($remoteName,
@@ -195,11 +195,11 @@ class ViewsTest extends BaseTestContext
             null,
             null,
             $folder));
-        Assert::assertEquals(200, $deleteResponse->getCode());
+        $this->assertEquals(200, $deleteResponse->getCode());
 
         /** @var Model\TableTextStylesResponse $getResponse */
         $getResponse = $this->tasks->getAllTableTextStyles($getRequest);
 
-        Assert::assertEquals(7, count($getResponse->getItems()));
+        $this->assertEquals(7, count($getResponse->getItems()));
     }
 }

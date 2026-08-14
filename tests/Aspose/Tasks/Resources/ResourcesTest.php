@@ -26,11 +26,12 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Resources;
 
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests;
+use Aspose\Tasks\Tests\BaseTestContext;
+use DateTime;
 
 class ResourcesTest extends BaseTestContext
 {
@@ -40,14 +41,14 @@ class ResourcesTest extends BaseTestContext
         $folder = $this->uploadTestFile("NewProductDev.mpp", $remoteName, '');
         
         $response = $this->tasks->getResources(new Requests\GetResourcesRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getResources());
-        Assert::assertNotNull($response->getResources()->getResourceItem());
-        Assert::assertEquals(2, count($response->getResources()->getResourceItem()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getResources());
+        $this->assertNotNull($response->getResources()->getResourceItem());
+        $this->assertEquals(2, count($response->getResources()->getResourceItem()));
         
-        Assert::assertEquals("Project manager", $response->getResources()->getResourceItem()[1]->getName());
-        Assert::assertEquals(1, $response->getResources()->getResourceItem()[1]->getUid());
-        Assert::assertEquals(1, $response->getResources()->getResourceItem()[1]->getId());
+        $this->assertEquals("Project manager", $response->getResources()->getResourceItem()[1]->getName());
+        $this->assertEquals(1, $response->getResources()->getResourceItem()[1]->getUid());
+        $this->assertEquals(1, $response->getResources()->getResourceItem()[1]->getId());
     }
     
     public function testAddResource()
@@ -56,23 +57,23 @@ class ResourcesTest extends BaseTestContext
         $folder = $this->uploadTestFile("Home move plan.mpp", $remoteName, '');
         
         $response = $this->tasks->getResources(new Requests\GetResourcesRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getResources());
-        Assert::assertNotNull($response->getResources()->getResourceItem());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getResources());
+        $this->assertNotNull($response->getResources()->getResourceItem());
         
         $count = count($response->getResources()->getResourceItem());
         
         $response = $this->tasks->postResource(new Requests\PostResourceRequest($remoteName, "new resource", null, null, self::$storageName, $folder));
-        Assert::assertEquals(201, $response->getCode());
+        $this->assertEquals(201, $response->getCode());
         $addedResourceUid = $response->getResourceItem()->getUid();
         
         $response = $this->tasks->getResources(new Requests\GetResourcesRequest($remoteName, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getResources());
-        Assert::assertNotNull($response->getResources()->getResourceItem());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getResources());
+        $this->assertNotNull($response->getResources()->getResourceItem());
         
-        Assert::assertEquals($count + 1, count($response->getResources()->getResourceItem()));
+        $this->assertEquals($count + 1, count($response->getResources()->getResourceItem()));
         
         foreach($response->getResources()->getResourceItem() as $r)
         {
@@ -82,8 +83,8 @@ class ResourcesTest extends BaseTestContext
             }
         }
         
-        Assert::assertNotNull($addedResourceItem);
-        Assert::assertEquals("new resource", $addedResourceItem->getName());
+        $this->assertNotNull($addedResourceItem);
+        $this->assertEquals("new resource", $addedResourceItem->getName());
     }
     
     public function testEditResource()
@@ -92,8 +93,8 @@ class ResourcesTest extends BaseTestContext
         $folder = $this->uploadTestFile("sample.mpp", $remoteName, '');
         
         $response = $this->tasks->getResource(new Requests\GetResourceRequest($remoteName, 1, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getResource());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getResource());
         
         $resource = $response->getResource();
         $resource->setName("Modified Resource1");
@@ -110,19 +111,19 @@ class ResourcesTest extends BaseTestContext
         $resource->setBaselines(array($baseline));
         
         $response = $this->tasks->putResource(new Requests\PutResourceRequest($remoteName, 1, $resource, Model\CalculationMode::NONE, false, self::$storageName, $folder, null));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $resourceAfterModification = $response->getResource();
         
-        Assert::assertEquals(1, count($resourceAfterModification->getBaselines()));
-        Assert::assertEquals(Model\BaselineType::BASELINE1, $resourceAfterModification->getBaselines()[0]->getBaselineNumber());
-        Assert::assertEquals(44, $resourceAfterModification->getBaselines()[0]->getCost());
-        Assert::assertEquals($resource->getStandardRate(), $resourceAfterModification->getStandardRate());
-        Assert::assertNotEquals($resource->getStart()->format(\DATE_ISO8601), $resourceAfterModification->getStart()->format(\DATE_ISO8601));
-        Assert::assertEquals($resource->getWork(), $resourceAfterModification->getWork());
-        Assert::assertNotEquals($resource->getFinish()->format(\DATE_ISO8601), $resourceAfterModification->getFinish()->format(\DATE_ISO8601));
-        Assert::assertEquals($resource->getOvertimeWork(), $resourceAfterModification->getOvertimeWork());
-        Assert::assertEquals($resource->getCost(), $resourceAfterModification->getCost());
+        $this->assertEquals(1, count($resourceAfterModification->getBaselines()));
+        $this->assertEquals(Model\BaselineType::BASELINE1, $resourceAfterModification->getBaselines()[0]->getBaselineNumber());
+        $this->assertEquals(44, $resourceAfterModification->getBaselines()[0]->getCost());
+        $this->assertEquals($resource->getStandardRate(), $resourceAfterModification->getStandardRate());
+        $this->assertNotEquals($resource->getStart()->format(\DATE_ISO8601), $resourceAfterModification->getStart()->format(\DATE_ISO8601));
+        $this->assertEquals($resource->getWork(), $resourceAfterModification->getWork());
+        $this->assertNotEquals($resource->getFinish()->format(\DATE_ISO8601), $resourceAfterModification->getFinish()->format(\DATE_ISO8601));
+        $this->assertEquals($resource->getOvertimeWork(), $resourceAfterModification->getOvertimeWork());
+        $this->assertEquals($resource->getCost(), $resourceAfterModification->getCost());
     }
     
     
@@ -136,12 +137,12 @@ class ResourcesTest extends BaseTestContext
         $resourcesCountBeforeDelete = count($response->getResources()->getResourceItem());
 
         $response = $this->tasks->deleteResource(new Requests\DeleteResourceRequest($remoteName, 1, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->GetResources($getRequest);
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getResources());
-        Assert::assertNotNull($response->getResources()->getResourceItem());
-        Assert::assertLessThan($resourcesCountBeforeDelete, count($response->getResources()->getResourceItem()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getResources());
+        $this->assertNotNull($response->getResources()->getResourceItem());
+        $this->assertLessThan($resourcesCountBeforeDelete, count($response->getResources()->getResourceItem()));
     }
 }

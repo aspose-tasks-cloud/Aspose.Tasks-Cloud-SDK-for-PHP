@@ -26,14 +26,14 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Tasks;
 
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests;
 use Aspose\Tasks\Model\PrimaveraDurationType;
 use Aspose\Tasks\Model\PrimaveraActivityType;
 use Aspose\Tasks\Model\PrimaveraPercentCompleteType;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class TaskPrimaveraPropertiesTest extends BaseTestContext
 {
@@ -44,22 +44,22 @@ class TaskPrimaveraPropertiesTest extends BaseTestContext
 
         $response = $this->tasks->getPrimaveraTaskProperties(new Requests\GetPrimaveraTaskPropertiesRequest($remoteName, 1, $folder, self::$storageName));
 
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getPrimaveraProperties());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getPrimaveraProperties());
 
         $entity = $response->getPrimaveraProperties();
-        Assert::assertEquals(0, $entity->getSequenceNumber());
-        Assert::assertEquals("A1040", $entity->getActivityId());
-        Assert::assertEquals("2000-10-12T08:00:00", $entity->getRemainingEarlyStart()->format("Y-m-d\\TH:i:s"));
-        Assert::assertEquals("2000-10-12T17:00:00", $entity->getRemainingEarlyFinish()->format("Y-m-d\\TH:i:s"));
-        Assert::assertEquals("2000-10-12T08:00:00", $entity->getRemainingLateStart()->format("Y-m-d\\TH:i:s"));
-        Assert::assertEquals("2000-10-12T17:00:00", $entity->getRemainingLateFinish()->format("Y-m-d\\TH:i:s"));
-        Assert::assertEquals("Fixed Units", $entity->getRawDurationType());
-        Assert::assertEquals("Task Dependent", $entity->getRawActivityType());
-        Assert::assertEquals("Units", $entity->getRawCompletePercentType());
-        Assert::assertEquals("Not Started", $entity->getRawStatus());
-        Assert::assertEquals(PrimaveraDurationType::FIXED_UNITS, $entity->getDurationType());
-        Assert::assertEquals(PrimaveraActivityType::TASK_DEPENDENT, $entity->getActivityType());
-        Assert::assertEquals(PrimaveraPercentCompleteType::UNITS, $entity->getPercentCompleteType());
+        $this->assertEquals(0, $entity->getSequenceNumber());
+        $this->assertEquals("A1040", $entity->getActivityId());
+        $this->assertEquals("2000-10-12T08:00:00", $entity->getRemainingEarlyStart()->format("Y-m-d\\TH:i:s"));
+        $this->assertEquals("2000-10-12T17:00:00", $entity->getRemainingEarlyFinish()->format("Y-m-d\\TH:i:s"));
+        $this->assertEquals("2000-10-12T08:00:00", $entity->getRemainingLateStart()->format("Y-m-d\\TH:i:s"));
+        $this->assertEquals("2000-10-12T17:00:00", $entity->getRemainingLateFinish()->format("Y-m-d\\TH:i:s"));
+        $this->assertEquals("Fixed Units", $entity->getRawDurationType());
+        $this->assertEquals("Task Dependent", $entity->getRawActivityType());
+        $this->assertEquals("Units", $entity->getRawCompletePercentType());
+        $this->assertEquals("Not Started", $entity->getRawStatus());
+        $this->assertEquals(PrimaveraDurationType::FIXED_UNITS, $entity->getDurationType());
+        $this->assertEquals(PrimaveraActivityType::TASK_DEPENDENT, $entity->getActivityType());
+        $this->assertEquals(PrimaveraPercentCompleteType::UNITS, $entity->getPercentCompleteType());
     }
 }

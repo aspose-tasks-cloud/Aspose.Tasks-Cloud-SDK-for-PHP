@@ -26,14 +26,10 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-namespace Aspose\Tasks\Test;
+namespace Aspose\Tasks\Tests;
 
-use PHPUnit\Framework\Assert;
-
-use BaseTestContext;
+use Aspose\Tasks\Tests\BaseTestContext;
 use ReflectionFunctionAbstract;
-
-include_once dirname(__FILE__) . '\BaseTestContext.php';
 
 class TasksApiTest extends BaseTestContext
 {
@@ -45,6 +41,7 @@ class TasksApiTest extends BaseTestContext
             'Calendars\CalendarWorkWeeksTest',
             'DocumentProperties\DocumentPropertiesTest',
             'ExtendedAttributes\ExtendedAttributesTest',
+            'Groups\GroupsTest',
             'OutlineCodes\OutlineCodesTest',
             'Project\ReadProjectTest',
             'Project\ImportProjectTest',
@@ -90,9 +87,10 @@ class TasksApiTest extends BaseTestContext
             include_once $fullname;
             $e = explode('\\', $cls);
             $className = array_pop($e);
-            $refClass = new \ReflectionClass($className);
+            $fullClassName = 'Aspose\\Tasks\\Tests\\' . $cls;
+            $refClass = new \ReflectionClass($fullClassName);
             foreach ($refClass->getMethods() as $testFixtureMethod) {
-                if ($testFixtureMethod->class == $className) {
+                if ($testFixtureMethod->class == $fullClassName) {
                     $apiCalls = self::getApiFunctionCallFromFunctionBody($testFixtureMethod);
                     foreach ($apiCalls as $apiCall) {
                         $testMethods[$apiCall] = true;
@@ -118,7 +116,7 @@ class TasksApiTest extends BaseTestContext
             unset($method);
         }
 
-        Assert::assertEquals(0, strlen($errorList), "Uncovered API methods\n" . $errorList);
+        $this->assertEquals(0, strlen($errorList), "Uncovered API methods\n" . $errorList);
     }
 
     private function getApiFunctionCallFromFunctionBody(ReflectionFunctionAbstract $func)

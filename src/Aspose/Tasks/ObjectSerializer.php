@@ -190,7 +190,7 @@ class ObjectSerializer
     public static function toString($value)
     {
         if($value instanceof \DateTime) {
-            return $value->format(\DATE_ISO8601);
+            return $value->format(\DateTime::ISO8601);
         }
             
         return $value;
@@ -273,10 +273,10 @@ class ObjectSerializer
                 // Parse MS date format ()
                 if(preg_match('/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})*/', $data, $matches)) {
 	                $dateInUtc = $matches[0] . "+0000";
-                    return \DateTime::createFromFormat(DATE_ISO8601, $dateInUtc);
+                    return \DateTime::createFromFormat(\DateTime::ISO8601, $dateInUtc);
                 }
 
-                return \DateTime::createFromFormat(DATE_ISO8601, $data);
+                return \DateTime::createFromFormat(\DateTime::ISO8601, $data);
             } else {
                 return null;
             }

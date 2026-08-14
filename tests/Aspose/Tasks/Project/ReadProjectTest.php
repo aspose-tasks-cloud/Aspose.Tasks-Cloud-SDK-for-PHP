@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
 * --------------------------------------------------------------------------------------------------------------------
 * <copyright company="Aspose" file="ReadProjectTest.php">
@@ -26,9 +26,10 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Project;
+
 use Aspose\Tasks\Model\Requests;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class ReadProjectTest extends BaseTestContext
 {
@@ -40,7 +41,7 @@ class ReadProjectTest extends BaseTestContext
         
         $response = $this->tasks->getTaskDocument(new Requests\GetTaskDocumentRequest($remoteName, self::$storageName, $folder));
         
-        Assert::assertTrue($response->getSize() > 0);
+        $this->assertTrue($response->getSize() > 0);
     }
     
     public function testGetProjectIds()
@@ -49,8 +50,8 @@ class ReadProjectTest extends BaseTestContext
         $folder = $this->uploadTestFile("p6_multiproject.xml", $remoteName, '');
         
         $response = $this->tasks->getProjectIds(new Requests\GetProjectIdsRequest($remoteName, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertEquals("1", $response->getProjectIds()[0]);
-        Assert::assertEquals("111", $response->getProjectIds()[1]);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals("1", $response->getProjectIds()[0]);
+        $this->assertEquals("111", $response->getProjectIds()[1]);
     }
 }

@@ -26,12 +26,12 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\TaskLinks;
 
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests;
 use Aspose\Tasks\Model\TaskLink;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class TaskLinksTest extends BaseTestContext
 {
@@ -41,9 +41,9 @@ class TaskLinksTest extends BaseTestContext
         $folder = $this->uploadTestFile("NewProductDev.mpp", $remoteName, '');
         $response = $this->tasks->getTaskLinks(new Requests\GetTaskLinksRequest($remoteName, self::$storageName, $folder, null));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTaskLinks());
-        Assert::assertEquals(24, count($response->getTaskLinks()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTaskLinks());
+        $this->assertEquals(24, count($response->getTaskLinks()));
     }
     
     public function testAddTaskLink()
@@ -59,7 +59,7 @@ class TaskLinksTest extends BaseTestContext
         $taskLink->setLagFormat(Model\TimeUnitType::DAY);
         
         $response = $this->tasks->postTaskLink(new Requests\PostTaskLinkRequest($remoteName, $taskLink, self::$storageName, $folder, null));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
     
     public function testEditTaskLink()
@@ -69,8 +69,8 @@ class TaskLinksTest extends BaseTestContext
         
         $response = $this->tasks->getTaskLinks(new Requests\GetTaskLinksRequest($remoteName, self::$storageName, $folder, null));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTaskLinks());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTaskLinks());
         
         $taskLinkToEdit = $response->getTaskLinks()[0];
         
@@ -80,17 +80,17 @@ class TaskLinksTest extends BaseTestContext
         $taskLinkToEdit->setLagFormat(Model\TimeUnitType::DAY);
         
         $response = $this->tasks->putTaskLink(new Requests\PutTaskLinkRequest($remoteName, 1, $taskLinkToEdit, self::$storageName, $folder, null));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTaskLinks(new Requests\GetTaskLinksRequest($remoteName, self::$storageName, $folder, null));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTaskLinks());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTaskLinks());
         
-        Assert::assertEquals(Model\TaskLinkType::START_TO_FINISH, $response->getTaskLinks()[0]->getLinkType());
-        Assert::assertEquals(9600, $response->getTaskLinks()[0]->getLag());
-        Assert::assertEquals(Model\TimeUnitType::DAY, $response->getTaskLinks()[0]->getLagFormat());
-        Assert::assertEquals("16:00:00", $response->getTaskLinks()[0]->getLinkLagTimeSpan());
+        $this->assertEquals(Model\TaskLinkType::START_TO_FINISH, $response->getTaskLinks()[0]->getLinkType());
+        $this->assertEquals(9600, $response->getTaskLinks()[0]->getLag());
+        $this->assertEquals(Model\TimeUnitType::DAY, $response->getTaskLinks()[0]->getLagFormat());
+        $this->assertEquals("16:00:00", $response->getTaskLinks()[0]->getLinkLagTimeSpan());
     }
     
     public function testDeleteTaskLink()
@@ -100,12 +100,12 @@ class TaskLinksTest extends BaseTestContext
         
         $response = $this->tasks->deleteTaskLink(new Requests\DeleteTaskLinkRequest($remoteName, 1, self::$storageName, $folder, null));
         
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTaskLinks(new Requests\GetTaskLinksRequest($remoteName, self::$storageName, $folder, null));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTaskLinks());
-        Assert::assertEquals(23, count($response->getTaskLinks()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTaskLinks());
+        $this->assertEquals(23, count($response->getTaskLinks()));
     }
 }

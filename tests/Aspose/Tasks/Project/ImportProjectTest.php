@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
 * --------------------------------------------------------------------------------------------------------------------
 * <copyright company="Aspose" file="ImportProjectTest.php">
@@ -26,12 +26,13 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Project;
+
 use Aspose\Tasks\Model\Requests;
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests\PutImportProjectFromDbRequest;
 use Aspose\Tasks\Model\Requests\GetProjectIdsRequest;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class ImportProjectTest extends BaseTestContext
 {
@@ -47,12 +48,12 @@ class ImportProjectTest extends BaseTestContext
                 self::$baseTestPath,
                 "dbo"));
         
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getProjectIds(new GetProjectIdsRequest("imported_from_db.xml", null, self::$baseTestPath));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertEquals(1, count($response->getProjectIds()));
-        Assert::assertEquals("0", $response->getProjectIds()[0]);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals(1, count($response->getProjectIds()));
+        $this->assertEquals("0", $response->getProjectIds()[0]);
     }
 
 
@@ -68,11 +69,11 @@ class ImportProjectTest extends BaseTestContext
             $folder,
             Model\ProjectFileFormat::P6XML));
 
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
 
         $response = $this->tasks->getTasks(new Requests\GetTasksRequest("imported_from_primavera.xml", self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertEquals(12, count($response->getTasks()->getTaskItem()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals(12, count($response->getTasks()->getTaskItem()));
     }
 
 
@@ -90,11 +91,11 @@ class ImportProjectTest extends BaseTestContext
             null,
             Model\ProjectFileFormat::PDF));
 
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
 
         $response = $this->tasks->downloadFile($remoteName);
 
-        Assert::assertNotNull($response);
+        $this->assertNotNull($response);
     }
 
     public function testImportFromProjectOnlineByLoginAndPasswordCredentials()
@@ -111,10 +112,10 @@ class ImportProjectTest extends BaseTestContext
             "SomePassword",
             Model\ProjectFileFormat::PDF));
 
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
 
         $response = $this->tasks->downloadFile($remoteName);
 
-        Assert::assertNotNull($response);
+        $this->assertNotNull($response);
     }
 }

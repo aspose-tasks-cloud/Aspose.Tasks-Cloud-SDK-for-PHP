@@ -26,17 +26,18 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Calendars;
 
 use Aspose\Tasks\Model\CalendarException;
 use Aspose\Tasks\Model\CalendarExceptionType;
+use DateTime;
 use Aspose\Tasks\Model\DayType;
 use Aspose\Tasks\Model\Month;
 use Aspose\Tasks\Model\MonthItemType;
 use Aspose\Tasks\Model\MonthPosition;
 use Aspose\Tasks\Model\Requests;
 use Aspose\Tasks\Model\WorkingTime;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class CalendarExceptionsTest extends BaseTestContext
 {
@@ -47,28 +48,28 @@ class CalendarExceptionsTest extends BaseTestContext
         
         $response = $this->tasks->getCalendarExceptions(new Requests\GetCalendarExceptionsRequest($remoteName, 1, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getCalendarExceptions());
-        Assert::assertEquals(1, count($response->getCalendarExceptions()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getCalendarExceptions());
+        $this->assertEquals(1, count($response->getCalendarExceptions()));
         $calendarException = $response->getCalendarExceptions()[0];
         
-        Assert::assertEquals(true, $calendarException->getDayWorking());
-        Assert::assertEquals(1, count($calendarException->getDaysOfWeek()));
-        Assert::assertEquals(DayType::MONDAY, $calendarException->getDaysOfWeek()[0]);
-        Assert::assertEquals("2018-02-13", $calendarException->getFromDate()->format("Y-m-d"));
-        Assert::assertEquals("2018-04-09", $calendarException->getToDate()->format("Y-m-d"));
+        $this->assertEquals(true, $calendarException->getDayWorking());
+        $this->assertEquals(1, count($calendarException->getDaysOfWeek()));
+        $this->assertEquals(DayType::MONDAY, $calendarException->getDaysOfWeek()[0]);
+        $this->assertEquals("2018-02-13", $calendarException->getFromDate()->format("Y-m-d"));
+        $this->assertEquals("2018-04-09", $calendarException->getToDate()->format("Y-m-d"));
         
-        Assert::assertEquals(Month::UNDEFINED, $calendarException->getMonth());
-        Assert::assertEquals(MonthItemType::UNDEFINED, $calendarException->getMonthItem());
-        Assert::assertEquals(MonthPosition::UNDEFINED, $calendarException->getMonthPosition());
-        Assert::assertEquals(CalendarExceptionType::WEEKLY, $calendarException->getType());
-        Assert::assertEquals(8, $calendarException->getOccurrences());
-        Assert::assertEquals(1, $calendarException->getPeriod());
-        Assert::assertEquals(2, count($calendarException->getWorkingTimes()));
-        Assert::assertEquals("09:00:00", $calendarException->getWorkingTimes()[0]->getFromTime()->format("H:i:s"));
-        Assert::assertEquals("12:34:00", $calendarException->getWorkingTimes()[0]->getToTime()->format("H:i:s"));
-        Assert::assertEquals("15:11:00", $calendarException->getWorkingTimes()[1]->getFromTime()->format("H:i:s"));
-        Assert::assertEquals("17:30:00", $calendarException->getWorkingTimes()[1]->getToTime()->format("H:i:s"));
+        $this->assertEquals(Month::UNDEFINED, $calendarException->getMonth());
+        $this->assertEquals(MonthItemType::UNDEFINED, $calendarException->getMonthItem());
+        $this->assertEquals(MonthPosition::UNDEFINED, $calendarException->getMonthPosition());
+        $this->assertEquals(CalendarExceptionType::WEEKLY, $calendarException->getType());
+        $this->assertEquals(8, $calendarException->getOccurrences());
+        $this->assertEquals(1, $calendarException->getPeriod());
+        $this->assertEquals(2, count($calendarException->getWorkingTimes()));
+        $this->assertEquals("09:00:00", $calendarException->getWorkingTimes()[0]->getFromTime()->format("H:i:s"));
+        $this->assertEquals("12:34:00", $calendarException->getWorkingTimes()[0]->getToTime()->format("H:i:s"));
+        $this->assertEquals("15:11:00", $calendarException->getWorkingTimes()[1]->getFromTime()->format("H:i:s"));
+        $this->assertEquals("17:30:00", $calendarException->getWorkingTimes()[1]->getToTime()->format("H:i:s"));
     }
     
     public function testAddCalendarException()
@@ -89,12 +90,12 @@ class CalendarExceptionsTest extends BaseTestContext
         
         $response = $this->tasks->postCalendarException(
             new Requests\PostCalendarExceptionRequest($remoteName, 1, $calendarException, null, self::$storageName, $folder));
-        Assert::assertEquals(201, $response->getCode());
+        $this->assertEquals(201, $response->getCode());
         
         $response = $this->tasks->getCalendarExceptions(new Requests\GetCalendarExceptionsRequest($remoteName, 1, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getCalendarExceptions());
-        Assert::assertEquals(1, count($response->getCalendarExceptions()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getCalendarExceptions());
+        $this->assertEquals(1, count($response->getCalendarExceptions()));
         $this->assertCalendarExceptionsAreEqual($calendarException, $response->getCalendarExceptions()[0]);
     }
     
@@ -104,7 +105,7 @@ class CalendarExceptionsTest extends BaseTestContext
         $folder = $this->uploadTestFile("Calenar with exception.mpp", $remoteName, '');
         
         $response = $this->tasks->getCalendarExceptions(new Requests\GetCalendarExceptionsRequest($remoteName, 1, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $calendarException = $response->getCalendarExceptions()[0];
         $calendarException->setDaysOfWeek(array(DayType::THURSDAY, DayType::FRIDAY));
@@ -122,13 +123,13 @@ class CalendarExceptionsTest extends BaseTestContext
         
         $response = $this->tasks->putCalendarException(
             new Requests\PutCalendarExceptionRequest($remoteName, 1, $calendarException->getIndex(), $calendarException, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getCalendarExceptions(new Requests\GetCalendarExceptionsRequest($remoteName, 1, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
-        Assert::assertNotNull($response->getCalendarExceptions());
-        Assert::assertEquals(1, count($response->getCalendarExceptions()));
+        $this->assertNotNull($response->getCalendarExceptions());
+        $this->assertEquals(1, count($response->getCalendarExceptions()));
         
         $this->assertCalendarExceptionsAreEqual($calendarException, $response->getCalendarExceptions()[0]);
     }
@@ -139,38 +140,38 @@ class CalendarExceptionsTest extends BaseTestContext
         $folder = $this->uploadTestFile("Calenar with exception.mpp", $remoteName, '');
        
         $response = $this->tasks->deleteCalendarException(new Requests\DeleteCalendarExceptionRequest($remoteName, 1, 1, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
                 
         $response = $this->tasks->getCalendarExceptions(new Requests\GetCalendarExceptionsRequest($remoteName, 1, self::$storageName, $folder));
 
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getCalendarExceptions());
-        Assert::assertEquals(0, count($response->getCalendarExceptions()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getCalendarExceptions());
+        $this->assertEquals(0, count($response->getCalendarExceptions()));
     }
     
     private function assertCalendarExceptionsAreEqual(CalendarException $c1, CalendarException $c2)
     {
-        Assert::assertEquals($c1->getName(), $c2->getName());
-        Assert::assertEquals($c1->getDayWorking(), $c2->getDayWorking());
-        Assert::assertEquals($c1->getEnteredByOccurrences(), $c2->getEnteredByOccurrences());
-        Assert::assertEquals($c1->getFromDate()->format("Y-m-d"), $c2->getFromDate()->format("Y-m-d"));
+        $this->assertEquals($c1->getName(), $c2->getName());
+        $this->assertEquals($c1->getDayWorking(), $c2->getDayWorking());
+        $this->assertEquals($c1->getEnteredByOccurrences(), $c2->getEnteredByOccurrences());
+        $this->assertEquals($c1->getFromDate()->format("Y-m-d"), $c2->getFromDate()->format("Y-m-d"));
         
-        Assert::assertEquals($c1->getMonthDay(), $c2->getMonthDay());
-        Assert::assertEquals($c1->getOccurrences(), $c2->getOccurrences());
-        Assert::assertEquals($c1->getPeriod(), $c2->getPeriod());
-        Assert::assertEquals($c1->getToDate()->format("Y-m-d"), $c2->getToDate()->format("Y-m-d"));
-        Assert::assertEquals($c1->getType(), $c2->getType());
-        Assert::assertEquals(count($c1->getWorkingTimes()), count($c2->getWorkingTimes()));
+        $this->assertEquals($c1->getMonthDay(), $c2->getMonthDay());
+        $this->assertEquals($c1->getOccurrences(), $c2->getOccurrences());
+        $this->assertEquals($c1->getPeriod(), $c2->getPeriod());
+        $this->assertEquals($c1->getToDate()->format("Y-m-d"), $c2->getToDate()->format("Y-m-d"));
+        $this->assertEquals($c1->getType(), $c2->getType());
+        $this->assertEquals(count($c1->getWorkingTimes()), count($c2->getWorkingTimes()));
         for ($i = 0; $i < count($c1->getWorkingTimes()); $i = $i + 1)
         {
-            Assert::assertEquals($c1->getWorkingTimes()[$i]->getFromTime()->format("H:i:s"), $c2->getWorkingTimes()[$i]->getFromTime()->format("H:i:s"));
-            Assert::assertEquals($c1->getWorkingTimes()[$i]->getToTime()->format("H:i:s"), $c2->getWorkingTimes()[$i]->getToTime()->format("H:i:s"));
+            $this->assertEquals($c1->getWorkingTimes()[$i]->getFromTime()->format("H:i:s"), $c2->getWorkingTimes()[$i]->getFromTime()->format("H:i:s"));
+            $this->assertEquals($c1->getWorkingTimes()[$i]->getToTime()->format("H:i:s"), $c2->getWorkingTimes()[$i]->getToTime()->format("H:i:s"));
         }
         
-        Assert::assertEquals(count($c1->getDaysOfWeek()), count($c2->getDaysOfWeek()));
+        $this->assertEquals(count($c1->getDaysOfWeek()), count($c2->getDaysOfWeek()));
         for ($i = 0; $i < count($c1->getDaysOfWeek()); $i = $i + 1)
         {
-            Assert::assertEquals($c1->getDaysOfWeek()[$i], $c2->getDaysOfWeek()[$i]);
+            $this->assertEquals($c1->getDaysOfWeek()[$i], $c2->getDaysOfWeek()[$i]);
         }
     }
 }

@@ -26,14 +26,14 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
+namespace Aspose\Tasks\Tests\ProjectOnline;
 
 use Aspose\Tasks\Model\Requests\CreateNewProjectRequest;
 use Aspose\Tasks\Model\Requests\PutImportProjectFromProjectOnlineRequest;
-use PHPUnit\Framework\Assert;
 use Aspose\Tasks\Model\Requests;
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests\GetProjectListRequest;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class ProjectOnlineTest extends BaseTestContext
 {
@@ -44,8 +44,8 @@ class ProjectOnlineTest extends BaseTestContext
         $response = $this->tasks->getProjectList(new GetProjectListRequest
         ('http://project_server_instance.local/sites/pwa', 'SOMESECRETTOKEN'));
 
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotEmpty($response->getProjects());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotEmpty($response->getProjects());
     }
 
     public function testGetProjectListByLoginAndPasswordCredentials()
@@ -55,8 +55,8 @@ class ProjectOnlineTest extends BaseTestContext
         $response = $this->tasks->getProjectList(new GetProjectListRequest
         ('http://project_server_instance.local/sites/pwa', null, 'SomeLogin', 'SomePassword'));
 
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotEmpty($response->getProjects());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotEmpty($response->getProjects());
     }
 
     public function testCreateNewProjectByTokenCredential()
@@ -69,7 +69,7 @@ class ProjectOnlineTest extends BaseTestContext
         $response = $this->tasks->createNewProject(new CreateNewProjectRequest
         ($remoteName, 'http://project_server_instance.local/sites/pwa', null, $folder, self::$storageName, 'SOMESECRETTOKEN'));
 
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
 
     public function testCreateNewProjectByLoginAndPasswordCredentials()
@@ -82,7 +82,7 @@ class ProjectOnlineTest extends BaseTestContext
         $response = $this->tasks->createNewProject(new CreateNewProjectRequest
         ($remoteName, 'http://project_server_instance.local/sites/pwa', null, $folder, self::$storageName, null, 'SomeLogin', 'SomePassword'));
 
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
 
     public function testUpdateProjectByTokenCredential()
@@ -95,7 +95,7 @@ class ProjectOnlineTest extends BaseTestContext
         $response = $this->tasks->updateProject(new UpdateProjectRequest
         ($remoteName, 'http://project_server_instance.local/sites/pwa', null, $folder, self::$storageName, 'SOMESECRETTOKEN'));
 
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
 
     public function testUpdateProjectByLoginAndPasswordCredentials()
@@ -108,7 +108,7 @@ class ProjectOnlineTest extends BaseTestContext
         $response = $this->tasks->updateProject(new UpdateProjectRequest
         ($remoteName, 'http://project_server_instance.local/sites/pwa', null, $folder, self::$storageName, null, 'SomeLogin', 'SomePassword'));
 
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
 
     public function testPutImportProjectFromProjectOnlineByTokenCredential()
@@ -121,7 +121,7 @@ class ProjectOnlineTest extends BaseTestContext
         $response = $this->tasks->putImportProjectFromProjectOnline(new PutImportProjectFromProjectOnlineRequest
         ($remoteName, 'Some-Guid','http://project_server_instance.local/sites/pwa', null, null, $folder, self::$storageName, 'SOMESECRETTOKEN'));
 
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
 
     public function testPutImportProjectFromProjectOnlineByLoginAndPasswordCredentials()
@@ -134,6 +134,6 @@ class ProjectOnlineTest extends BaseTestContext
         $response = $this->tasks->putImportProjectFromProjectOnline(new PutImportProjectFromProjectOnlineRequest
         ($remoteName, 'Some-Guid','http://project_server_instance.local/sites/pwa', 'SomeLogin', null,$folder, self::$storageName, null, 'SomePassword'));
 
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
 }

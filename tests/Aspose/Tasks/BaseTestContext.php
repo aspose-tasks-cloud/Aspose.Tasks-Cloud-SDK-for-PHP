@@ -25,12 +25,15 @@
 * </summary>
 * --------------------------------------------------------------------------------------------------------------------
 */
-// 
+
+namespace Aspose\Tasks\Tests;
 
 use Aspose\Tasks\Configuration;
 use Aspose\Tasks\TasksApi;
 use Aspose\Tasks\Model\Requests;
-abstract class BaseTestContext extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+abstract class BaseTestContext extends TestCase
 {
     protected $tasks;
 
@@ -43,7 +46,7 @@ abstract class BaseTestContext extends \PHPUnit_Framework_TestCase
     /**
      * Setup before running each test case
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->config = new Configuration();
         $this->uploadedTestFiles = array();
@@ -52,7 +55,7 @@ abstract class BaseTestContext extends \PHPUnit_Framework_TestCase
          */
         $this->config->setHost('https://api.aspose.cloud');
         $this->config->setAppKey("yourAppKey");
-        $this->config->setAppSid("yourAppSid");
+        $this->config->setAppSid("yourAppKey");
 
         $this->tasks = new TasksApi(null, $this->config);
     }
@@ -60,7 +63,7 @@ abstract class BaseTestContext extends \PHPUnit_Framework_TestCase
     /**
      * Clean after running each test case
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         foreach ($this->uploadedTestFiles as $uploadedTestFile) {
             $request = new Requests\DeleteFileRequest($uploadedTestFile);

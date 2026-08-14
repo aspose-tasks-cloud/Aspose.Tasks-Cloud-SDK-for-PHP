@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
 * --------------------------------------------------------------------------------------------------------------------
 * <copyright company="Aspose" file="RecalculationTest.php">
@@ -26,16 +26,18 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Recalculation;
+
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests\PutRecalculateProjectRequest;
+use DateTime;
 use Aspose\Tasks\Model\Requests\PutRecalculateProjectWorkAsCompleteRequest;
 use Aspose\Tasks\Model\Requests\PutRecalculateProjectUncompleteWorkToStartAfterRequest;
 use Aspose\Tasks\Model\Requests\PutRecalculateProjectResourceFieldsRequest;
 use Aspose\Tasks\Model\Requests\PostTaskRequest;
 use Aspose\Tasks\Model\Requests\GetTaskRequest;
 use Aspose\Tasks\Model\Requests\PutTaskRequest;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class RecalculationTest extends BaseTestContext
 {
@@ -46,12 +48,12 @@ class RecalculationTest extends BaseTestContext
 
         $response = $this->tasks->postTask(new PostTaskRequest($remoteName, "NewTaskName", null, null, self::$storageName, $folder));
        
-        Assert::assertEquals(201, $response->getCode());
+        $this->assertEquals(201, $response->getCode());
         $taskUid = $response->getTaskItem()->getUid();
         
         $response = $this->tasks->getTask(new GetTaskRequest($remoteName, $taskUid, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getTask());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getTask());
 
         $t = $response->getTask();
         $t->setName("New task Name");
@@ -60,12 +62,12 @@ class RecalculationTest extends BaseTestContext
         $t->setCost(100);
         
         $response = $this->tasks->putTask(new PutTaskRequest($remoteName, $taskUid, $t, null, false, self::$storageName, $folder, null));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->putRecalculateProject(new PutRecalculateProjectRequest($remoteName, Model\CalculationMode::NONE, true, null, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         $validationResult = $response->getResult();
-        Assert::assertEquals(Model\ProjectValidationState::VALID, $validationResult->getValidationState());
+        $this->assertEquals(Model\ProjectValidationState::VALID, $validationResult->getValidationState());
     }
     
     public function testRecalculateResource()
@@ -78,7 +80,7 @@ class RecalculationTest extends BaseTestContext
             $folder,
             null));
         
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
     
     public function testRecalculateUncompleteWork()
@@ -92,7 +94,7 @@ class RecalculationTest extends BaseTestContext
             $folder,
             null));
         
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
     
     public function testRecalculateProjectWorkAsComplete()
@@ -107,6 +109,6 @@ class RecalculationTest extends BaseTestContext
             $folder,
             null));
         
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
 }

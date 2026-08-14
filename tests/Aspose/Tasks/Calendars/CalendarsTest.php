@@ -26,13 +26,15 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
+namespace Aspose\Tasks\Tests\Calendars;
+
 use Aspose\Tasks\Model\Requests;
-use PHPUnit\Framework\Assert;
 use Aspose\Tasks\Model\Calendar;
+use DateTime;
 use Aspose\Tasks\Model\WeekDay;
 use Aspose\Tasks\Model\DayType;
 use Aspose\Tasks\Model\WorkingTime;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class CalendarsTest extends BaseTestContext
 {
@@ -43,13 +45,13 @@ class CalendarsTest extends BaseTestContext
         
         $response = $this->tasks->getCalendars(new Requests\GetCalendarsRequest($remoteName, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getCalendars());
-        Assert::assertNotNull($response->getCalendars()->getList());
-        Assert::assertEquals(1, count($response->getCalendars()->getList()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getCalendars());
+        $this->assertNotNull($response->getCalendars()->getList());
+        $this->assertEquals(1, count($response->getCalendars()->getList()));
         
-        Assert::assertEquals("Standard", $response->getCalendars()->getList()[0]->getName());
-        Assert::assertEquals(1, $response->getCalendars()->getList()[0]->getUid());
+        $this->assertEquals("Standard", $response->getCalendars()->getList()[0]->getName());
+        $this->assertEquals(1, $response->getCalendars()->getList()[0]->getUid());
     }
     
     public function testGetCalendarByUid()
@@ -59,13 +61,13 @@ class CalendarsTest extends BaseTestContext
         
         $response = $this->tasks->getCalendar(new Requests\GetCalendarRequest($remoteName, 1, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getCalendar());
-        Assert::assertEquals("3F979F74-B9D3-4E5F-98DC-5E08060A0C30", $response->getCalendar()->getGuid());
-        Assert::assertEquals("Standard", $response->getCalendar()->getName());
-        Assert::assertEquals(7, count($response->getCalendar()->getDays()));
-        Assert::assertEquals(true, $response->getCalendar()->getIsBaseCalendar());
-        Assert::assertEquals(false, $response->getCalendar()->getIsBaselineCalendar());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getCalendar());
+        $this->assertEquals("3F979F74-B9D3-4E5F-98DC-5E08060A0C30", $response->getCalendar()->getGuid());
+        $this->assertEquals("Standard", $response->getCalendar()->getName());
+        $this->assertEquals(7, count($response->getCalendar()->getDays()));
+        $this->assertEquals(true, $response->getCalendar()->getIsBaseCalendar());
+        $this->assertEquals(false, $response->getCalendar()->getIsBaselineCalendar());
         
         $monday = NULL;
         foreach ($response->getCalendar()->getDays() as $day) {
@@ -76,8 +78,8 @@ class CalendarsTest extends BaseTestContext
             }
         }
         
-        Assert::assertNotNull($monday);
-        Assert::assertTrue($monday->getDayWorking());
+        $this->assertNotNull($monday);
+        $this->assertTrue($monday->getDayWorking());
     }
  
     public function testAddNewCalendar()
@@ -113,15 +115,15 @@ class CalendarsTest extends BaseTestContext
         $calendar->setIsBaselineCalendar(false);
         
         $response = $this->tasks->postCalendar(new Requests\PostCalendarRequest($remoteName, $calendar, null, self::$storageName, $folder));
-        Assert::assertEquals(201, $response->getCode());
+        $this->assertEquals(201, $response->getCode());
         
         $createdCalendarUid =$response->getCalendarItem()->getUid();;
         
         $response = $this->tasks->getCalendar(new Requests\GetCalendarRequest($remoteName, $createdCalendarUid, self::$storageName, $folder));
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getCalendar());
-        Assert::assertEquals("My new calendar", $response->getCalendar()->getName());
-        Assert::assertEquals(7, count($response->getCalendar()->getDays()));
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getCalendar());
+        $this->assertEquals("My new calendar", $response->getCalendar()->getName());
+        $this->assertEquals(7, count($response->getCalendar()->getDays()));
         
         $monday = NULL;
         foreach ($response->getCalendar()->getDays() as $day) {
@@ -132,11 +134,11 @@ class CalendarsTest extends BaseTestContext
             }
         }
         
-        Assert::assertNotNull($monday);
-        Assert::assertEquals("08:00:00", $monday->getWorkingTimes()[0]->getFromTime()->format("H:i:s"));
-        Assert::assertEquals("13:00:00", $monday->getWorkingTimes()[0]->getToTime()->format("H:i:s"));
-        Assert::assertEquals("14:00:00", $monday->getWorkingTimes()[1]->getFromTime()->format("H:i:s"));
-        Assert::assertEquals("17:00:00", $monday->getWorkingTimes()[1]->getToTime()->format("H:i:s"));
+        $this->assertNotNull($monday);
+        $this->assertEquals("08:00:00", $monday->getWorkingTimes()[0]->getFromTime()->format("H:i:s"));
+        $this->assertEquals("13:00:00", $monday->getWorkingTimes()[0]->getToTime()->format("H:i:s"));
+        $this->assertEquals("14:00:00", $monday->getWorkingTimes()[1]->getFromTime()->format("H:i:s"));
+        $this->assertEquals("17:00:00", $monday->getWorkingTimes()[1]->getToTime()->format("H:i:s"));
     }
 
     public function testAddEmptyCalendar()
@@ -168,17 +170,17 @@ class CalendarsTest extends BaseTestContext
         {
             $response = $this->tasks->putCalendar(new Requests\PutCalendarRequest($remoteName, 1, $calendar, null, self::$storageName, $folder));
         }
-        catch(Aspose\Tasks\ApiException $e)
+        catch(\Aspose\Tasks\ApiException $e)
         {
-            Assert::assertEquals(400, $e->getCode());
+            $this->assertEquals(400, $e->getCode());
             $errorObject = json_decode($e->getResponseBody(), true);
-            Assert::assertEquals("InvalidParameters", $errorObject["Error"]["Code"]);
-            Assert::assertEquals("Calendar should have at least one working time defined", $errorObject["Error"]["Message"]);
+            $this->assertEquals("InvalidParameters", $errorObject["Error"]["Code"]);
+            $this->assertEquals("Calendar should have at least one working time defined", $errorObject["Error"]["Message"]);
             $catched = true;
         }
         
         if(!$catched) {
-            Assert::fail("Expected ApiException is not thrown");
+            $this->fail("Expected ApiException is not thrown");
         }
     }
     
@@ -216,15 +218,15 @@ class CalendarsTest extends BaseTestContext
         $calendar->setIsBaselineCalendar(false);
         
         $response = $this->tasks->putCalendar(new Requests\PutCalendarRequest($remoteName, 1, $calendar, null, self::$storageName, $folder));
-        Assert::assertNotNull($response);
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getCalendar(new Requests\GetCalendarRequest($remoteName, 1, self::$storageName, $folder));
-        Assert::assertNotNull($response);
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getCode());
         
-        Assert::assertEquals("Modified calendar", $response->getCalendar()->getName());
-        Assert::assertEquals(7, count($response->getCalendar()->getDays()));
+        $this->assertEquals("Modified calendar", $response->getCalendar()->getName());
+        $this->assertEquals(7, count($response->getCalendar()->getDays()));
         
         $monday = NULL;
         foreach ($response->getCalendar()->getDays() as $day) {
@@ -235,32 +237,32 @@ class CalendarsTest extends BaseTestContext
             }
         }
         
-        Assert::assertNotNull($monday);
-        Assert::assertEquals("08:00:00", $monday->getWorkingTimes()[0]->getFromTime()->format("H:i:s"));
-        Assert::assertEquals("13:00:00", $monday->getWorkingTimes()[0]->getToTime()->format("H:i:s"));
-        Assert::assertEquals("14:00:00", $monday->getWorkingTimes()[1]->getFromTime()->format("H:i:s"));
-        Assert::assertEquals("17:00:00", $monday->getWorkingTimes()[1]->getToTime()->format("H:i:s"));
+        $this->assertNotNull($monday);
+        $this->assertEquals("08:00:00", $monday->getWorkingTimes()[0]->getFromTime()->format("H:i:s"));
+        $this->assertEquals("13:00:00", $monday->getWorkingTimes()[0]->getToTime()->format("H:i:s"));
+        $this->assertEquals("14:00:00", $monday->getWorkingTimes()[1]->getFromTime()->format("H:i:s"));
+        $this->assertEquals("17:00:00", $monday->getWorkingTimes()[1]->getToTime()->format("H:i:s"));
     }
      
     public function testDeleteNonExistingCalendar()
     {
         $remoteName = "testDeleteNonExistingCalendar.mpp";
         $folder = $this->uploadTestFile("Home move plan.mpp", $remoteName, '');
+        $catched = false;
         try
         {
             $this->tasks->deleteCalendar(new Requests\DeleteCalendarRequest($remoteName, 20, self::$storageName, $folder, null));
-            $catched = false;
         }
-        catch(Aspose\Tasks\ApiException $e)
+        catch(\Aspose\Tasks\ApiException $e)
         {
-            Assert::assertEquals(404, $e->getCode());
+            $this->assertEquals(404, $e->getCode());
             $errorObject = json_decode($e->getResponseBody(), true);
-            Assert::assertEquals("NonexistentCalendar", $errorObject["Error"]["Code"]);
-            Assert::assertEquals("Specified calendar does not exist", $errorObject["Error"]["Message"]);
+            $this->assertEquals("NonexistentCalendar", $errorObject["Error"]["Code"]);
+            $this->assertEquals("Specified calendar does not exist", $errorObject["Error"]["Message"]);
             $catched = true;
         }
 
-        Assert::assertTrue($catched, "Expected ApiException is not thrown");
+        $this->assertTrue($catched, "Expected ApiException is not thrown");
     }
     
     public function testDeleteCalendarByUid()
@@ -270,15 +272,15 @@ class CalendarsTest extends BaseTestContext
         
         $response = $this->tasks->deleteCalendar(new Requests\DeleteCalendarRequest($remoteName, 3, self::$storageName, $folder, null));
         
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getCalendars(new Requests\GetCalendarsRequest($remoteName, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getCalendars());
-        Assert::assertNotNull($response->getCalendars()->getList());
-        Assert::assertEquals(1, count($response->getCalendars()->getList()));
-        Assert::assertEquals(1, $response->getCalendars()->getList()[0]->getUid());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getCalendars());
+        $this->assertNotNull($response->getCalendars()->getList());
+        $this->assertEquals(1, count($response->getCalendars()->getList()));
+        $this->assertEquals(1, $response->getCalendars()->getList()[0]->getUid());
     }
 
 }

@@ -26,8 +26,7 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Tasks;
 
 use Aspose\Tasks\Model;
 use Aspose\Tasks\Model\Requests;
@@ -36,6 +35,8 @@ use Aspose\Tasks\Model\ExtendedAttribute;
 use Aspose\Tasks\Model\RecurringInfo;
 use Aspose\Tasks\Model\RecurrencePattern;
 use Aspose\Tasks\Model\WeekDayType;
+use DateTime;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class TaskRecurringInfoTest extends BaseTestContext
 {
@@ -46,17 +47,17 @@ class TaskRecurringInfoTest extends BaseTestContext
         
         $response = $this->tasks->getTaskRecurringInfo(new Requests\GetTaskRecurringInfoRequest($remoteName, 6, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getRecurringInfo());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getRecurringInfo());
         
         $entity = $response->getRecurringInfo();
-        Assert::assertEquals(2, $entity->getOccurrences());
-        Assert::assertEquals(Model\RecurrencePattern::MONTHLY, $entity->getRecurrencePattern());
-        Assert::assertEquals(true, $entity->getUseEndDate());
-        Assert::assertEquals(false, $entity->getMonthlyUseOrdinalDay());
-        Assert::assertEquals(1, $entity->getMonthlyDay());
-        Assert::assertEquals(Model\WeekDayType::NONE, $entity->getWeeklyDays());
-        Assert::assertEquals(Model\OrdinalNumber::SECOND, $entity->getYearlyOrdinalNumber());
+        $this->assertEquals(2, $entity->getOccurrences());
+        $this->assertEquals(Model\RecurrencePattern::MONTHLY, $entity->getRecurrencePattern());
+        $this->assertEquals(true, $entity->getUseEndDate());
+        $this->assertEquals(false, $entity->getMonthlyUseOrdinalDay());
+        $this->assertEquals(1, $entity->getMonthlyDay());
+        $this->assertEquals(Model\WeekDayType::NONE, $entity->getWeeklyDays());
+        $this->assertEquals(Model\OrdinalNumber::SECOND, $entity->getYearlyOrdinalNumber());
     }
     
     public function testEditRecurringTask()
@@ -66,8 +67,8 @@ class TaskRecurringInfoTest extends BaseTestContext
         
         $response = $this->tasks->getTaskRecurringInfo(new Requests\GetTaskRecurringInfoRequest($remoteName, 6, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getRecurringInfo());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getRecurringInfo());
         
         $entity = $response->getRecurringInfo();
         $entity->setOccurrences(10);
@@ -75,20 +76,20 @@ class TaskRecurringInfoTest extends BaseTestContext
         $request = new Requests\PutTaskRecurringInfoRequest($remoteName, 6, $entity, null, self::$storageName, $folder);
         $response = $this->tasks->putTaskRecurringInfo($request);
         
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
         
         $response = $this->tasks->getTaskRecurringInfo(new Requests\GetTaskRecurringInfoRequest($remoteName, 6, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertNotNull($response->getRecurringInfo());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertNotNull($response->getRecurringInfo());
         
-        Assert::assertEquals(10, $entity->getOccurrences());
-        Assert::assertEquals(Model\RecurrencePattern::MONTHLY, $entity->getRecurrencePattern());
-        Assert::assertEquals(true, $entity->getUseEndDate());
-        Assert::assertEquals(false, $entity->getMonthlyUseOrdinalDay());
-        Assert::assertEquals(1, $entity->getMonthlyDay());
-        Assert::assertEquals(Model\WeekDayType::NONE, $entity->getWeeklyDays());
-        Assert::assertEquals(Model\OrdinalNumber::SECOND, $entity->getYearlyOrdinalNumber());
+        $this->assertEquals(10, $entity->getOccurrences());
+        $this->assertEquals(Model\RecurrencePattern::MONTHLY, $entity->getRecurrencePattern());
+        $this->assertEquals(true, $entity->getUseEndDate());
+        $this->assertEquals(false, $entity->getMonthlyUseOrdinalDay());
+        $this->assertEquals(1, $entity->getMonthlyDay());
+        $this->assertEquals(Model\WeekDayType::NONE, $entity->getWeeklyDays());
+        $this->assertEquals(Model\OrdinalNumber::SECOND, $entity->getYearlyOrdinalNumber());
     }
     
     public function testAddRecurringTask()
@@ -108,20 +109,20 @@ class TaskRecurringInfoTest extends BaseTestContext
         $request = new Requests\PostTaskRecurringInfoRequest($remoteName, 0, "New recurring task", $recurringInfo, "Standard", null, self::$storageName, $folder);
         $response = $this->tasks->postTaskRecurringInfo($request);
         
-        Assert::assertEquals(201, $response->getCode());
-        Assert::assertNotNull($response->getTaskItem());
+        $this->assertEquals(201, $response->getCode());
+        $this->assertNotNull($response->getTaskItem());
         
         
         $getTaskResponse = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, $response->getTaskItem()->getUid(), self::$storageName, $folder));
-        Assert::assertEquals(200, $getTaskResponse->getCode());
-        Assert::assertEquals(36, count($getTaskResponse->getTask()->getSubtasksUids()));
+        $this->assertEquals(200, $getTaskResponse->getCode());
+        $this->assertEquals(36, count($getTaskResponse->getTask()->getSubtasksUids()));
        
         $lastTaskUid = $getTaskResponse->getTask()->getSubtasksUids()[35];
         $getTaskResponse = $this->tasks->getTask(new Requests\GetTaskRequest($remoteName, $lastTaskUid, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $getTaskResponse->getCode());
-        Assert::assertNotNull($getTaskResponse->getTask());
+        $this->assertEquals(200, $getTaskResponse->getCode());
+        $this->assertNotNull($getTaskResponse->getTask());
         
-        Assert::assertEquals("2018-12-27T08:00:00", $getTaskResponse->getTask()->getStart()->format("Y-m-d\\TH:i:s"));
+        $this->assertEquals("2018-12-27T08:00:00", $getTaskResponse->getTask()->getStart()->format("Y-m-d\\TH:i:s"));
     }
 }

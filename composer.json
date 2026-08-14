@@ -23,25 +23,29 @@
   ],
   "config": {
     "platform": {
-      "php": "5.6.32"
+      "php": "8.2"
     }
   },
   "require": {
-    "php": ">=5.5",
+    "php": ">=8.2",
     "ext-curl": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "guzzlehttp/guzzle": "^6.2",
-    "friendsofphp/php-cs-fixer": "2.10.*"
+    "guzzlehttp/guzzle": "^7.8",
+    "friendsofphp/php-cs-fixer": "^3.50"
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "3.*",
-    "phpunit/phpunit": "^4.8"
+    "squizlabs/php_codesniffer": "^3.10",
+    "phpunit/phpunit": "^11.0"
   },
   "autoload": {
-    "psr-0": {
-      "Aspose": "src/",
-      "BaseTest": "tests/"
+    "psr-4": {
+      "Aspose\\Tasks\\": "src/Aspose/Tasks/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Aspose\\Tasks\\Tests\\": "tests/Aspose/Tasks/"
     }
   }
 }

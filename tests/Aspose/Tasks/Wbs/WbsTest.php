@@ -26,9 +26,10 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 
-include_once(realpath(dirname(__FILE__) . '/..') . "/BaseTestContext.php");
-use PHPUnit\Framework\Assert;
+namespace Aspose\Tasks\Tests\Wbs;
+
 use Aspose\Tasks\Model\Requests;
+use Aspose\Tasks\Tests\BaseTestContext;
 
 class WbsTest extends BaseTestContext
 {
@@ -39,9 +40,9 @@ class WbsTest extends BaseTestContext
         
         $response = $this->tasks->getWbsDefinition(new Requests\GetWbsDefinitionRequest($remoteName, self::$storageName, $folder));
         
-        Assert::assertEquals(200, $response->getCode());
-        Assert::assertEquals(true, $response->getWbsDefinition()->getGenerateWbsCode());
-        Assert::assertEquals(true, $response->getWbsDefinition()->getVerifyUniqueness());
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals(true, $response->getWbsDefinition()->getGenerateWbsCode());
+        $this->assertEquals(true, $response->getWbsDefinition()->getVerifyUniqueness());
     }
     
     public function testRenumberWbsCode()
@@ -50,6 +51,6 @@ class WbsTest extends BaseTestContext
         $folder = $this->uploadTestFile("WBSDefinition.mpp", $remoteName, '');
         
         $response = $this->tasks->putRenumberWbsCode(new Requests\PutRenumberWbsCodeRequest($remoteName, [], self::$storageName, null, $folder));
-        Assert::assertEquals(200, $response->getCode());
+        $this->assertEquals(200, $response->getCode());
     }
 }
