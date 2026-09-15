@@ -90,7 +90,8 @@ class PrimaveraTaskProperties implements ArrayAccess
         'primary_constraint_type' => '\Aspose\Tasks\Model\PrimaveraConstraintType',
         'primary_constraint_date' => '\DateTime',
         'secondary_constraint_type' => '\Aspose\Tasks\Model\PrimaveraConstraintType',
-        'secondary_constraint_date' => '\DateTime'
+        'secondary_constraint_date' => '\DateTime',
+        'planned_duration' => 'string'
     ];
 
     /*
@@ -133,7 +134,8 @@ class PrimaveraTaskProperties implements ArrayAccess
         'primary_constraint_type' => null,
         'primary_constraint_date' => 'date-time',
         'secondary_constraint_type' => null,
-        'secondary_constraint_date' => 'date-time'
+        'secondary_constraint_date' => 'date-time',
+        'planned_duration' => 'time-span'
     ];
 
     /*
@@ -197,7 +199,8 @@ class PrimaveraTaskProperties implements ArrayAccess
         'primary_constraint_type' => 'primaryConstraintType',
         'primary_constraint_date' => 'primaryConstraintDate',
         'secondary_constraint_type' => 'secondaryConstraintType',
-        'secondary_constraint_date' => 'secondaryConstraintDate'
+        'secondary_constraint_date' => 'secondaryConstraintDate',
+        'planned_duration' => 'plannedDuration'
     ];
 
     /*
@@ -240,7 +243,8 @@ class PrimaveraTaskProperties implements ArrayAccess
         'primary_constraint_type' => 'setPrimaryConstraintType',
         'primary_constraint_date' => 'setPrimaryConstraintDate',
         'secondary_constraint_type' => 'setSecondaryConstraintType',
-        'secondary_constraint_date' => 'setSecondaryConstraintDate'
+        'secondary_constraint_date' => 'setSecondaryConstraintDate',
+        'planned_duration' => 'setPlannedDuration'
     ];
 
     /*
@@ -283,7 +287,8 @@ class PrimaveraTaskProperties implements ArrayAccess
         'primary_constraint_type' => 'getPrimaryConstraintType',
         'primary_constraint_date' => 'getPrimaryConstraintDate',
         'secondary_constraint_type' => 'getSecondaryConstraintType',
-        'secondary_constraint_date' => 'getSecondaryConstraintDate'
+        'secondary_constraint_date' => 'getSecondaryConstraintDate',
+        'planned_duration' => 'getPlannedDuration'
     ];
 
     /*
@@ -381,6 +386,7 @@ class PrimaveraTaskProperties implements ArrayAccess
         $this->container['primary_constraint_date'] = isset($data['primary_constraint_date']) ? $data['primary_constraint_date'] : null;
         $this->container['secondary_constraint_type'] = isset($data['secondary_constraint_type']) ? $data['secondary_constraint_type'] : null;
         $this->container['secondary_constraint_date'] = isset($data['secondary_constraint_date']) ? $data['secondary_constraint_date'] : null;
+        $this->container['planned_duration'] = isset($data['planned_duration']) ? $data['planned_duration'] : null;
     }
 
     /*
@@ -482,6 +488,9 @@ class PrimaveraTaskProperties implements ArrayAccess
         if ($this->container['secondary_constraint_date'] === null) {
             $invalidProperties[] = "'secondary_constraint_date' can't be null";
         }
+        if ($this->container['planned_duration'] === null) {
+            $invalidProperties[] = "'planned_duration' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -582,6 +591,9 @@ class PrimaveraTaskProperties implements ArrayAccess
             return false;
         }
         if ($this->container['secondary_constraint_date'] === null) {
+            return false;
+        }
+        if ($this->container['planned_duration'] === null) {
             return false;
         }
         return true;
@@ -1424,6 +1436,30 @@ class PrimaveraTaskProperties implements ArrayAccess
     public function setSecondaryConstraintDate($secondary_constraint_date)
     {
         $this->container['secondary_constraint_date'] = $secondary_constraint_date;
+
+        return $this;
+    }
+
+    /*
+     * Gets planned_duration
+     *
+     * @return string
+     */
+    public function getPlannedDuration()
+    {
+        return $this->container['planned_duration'];
+    }
+
+    /*
+     * Sets planned_duration
+     *
+     * @param string $planned_duration Gets the original or planned duration -- the total working time from the task planned start date to the planned finish date.
+     *
+     * @return $this
+     */
+    public function setPlannedDuration($planned_duration)
+    {
+        $this->container['planned_duration'] = $planned_duration;
 
         return $this;
     }

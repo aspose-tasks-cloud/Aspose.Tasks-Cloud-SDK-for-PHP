@@ -1,7 +1,7 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="Aspose" file="VbaModule.php">
+ * <copyright company="Aspose" file="UpdateVbaModuleRequest.php">
  *   Copyright (c) 2021 Aspose.Tasks Cloud
  * </copyright>
  * <summary>
@@ -26,7 +26,7 @@
  * --------------------------------------------------------------------------------------------------------------------
  */
 /*
- * VbaModule
+ * UpdateVbaModuleRequest
  */
 
 namespace Aspose\Tasks\Model;
@@ -35,11 +35,11 @@ use \ArrayAccess;
 use \Aspose\Tasks\ObjectSerializer;
 
 /*
- * VbaModule
+ * UpdateVbaModuleRequest
  *
- * @description Represents a vba module
+ * @description Represents the body of a request that updates a VBA module.
  */
-class VbaModule implements ArrayAccess
+class UpdateVbaModuleRequest implements ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -48,7 +48,7 @@ class VbaModule implements ArrayAccess
      *
      * @var string
      */
-    protected static $swaggerModelName = "VbaModule";
+    protected static $swaggerModelName = "UpdateVbaModuleRequest";
 
     /*
      * Array of property to type mappings. Used for (de)serialization
@@ -56,10 +56,7 @@ class VbaModule implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerTypes = [
-        'attributes' => '\Aspose\Tasks\Model\VbaModuleAttribute[]',
-        'name' => 'string',
-        'source_code' => 'string',
-        'type' => '\Aspose\Tasks\Model\VbaModuleType'
+        'source_code' => 'string'
     ];
 
     /*
@@ -68,10 +65,7 @@ class VbaModule implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerFormats = [
-        'attributes' => null,
-        'name' => null,
-        'source_code' => null,
-        'type' => null
+        'source_code' => null
     ];
 
     /*
@@ -101,10 +95,7 @@ class VbaModule implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'attributes' => 'attributes',
-        'name' => 'name',
-        'source_code' => 'sourceCode',
-        'type' => 'type'
+        'source_code' => 'sourceCode'
     ];
 
     /*
@@ -113,10 +104,7 @@ class VbaModule implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'attributes' => 'setAttributes',
-        'name' => 'setName',
-        'source_code' => 'setSourceCode',
-        'type' => 'setType'
+        'source_code' => 'setSourceCode'
     ];
 
     /*
@@ -125,10 +113,7 @@ class VbaModule implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'attributes' => 'getAttributes',
-        'name' => 'getName',
-        'source_code' => 'getSourceCode',
-        'type' => 'getType'
+        'source_code' => 'getSourceCode'
     ];
 
     /*
@@ -191,10 +176,7 @@ class VbaModule implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['attributes'] = isset($data['attributes']) ? $data['attributes'] : array();
-        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['source_code'] = isset($data['source_code']) ? $data['source_code'] : null;
-        $this->container['type'] = isset($data['type']) ? $data['type'] : null;
     }
 
     /*
@@ -206,9 +188,6 @@ class VbaModule implements ArrayAccess
     {
         $invalidProperties = [];
 
-        if ($this->container['type'] === null) {
-            $invalidProperties[] = "'type' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -221,60 +200,9 @@ class VbaModule implements ArrayAccess
     public function valid()
     {
 
-        if ($this->container['type'] === null) {
-            return false;
-        }
         return true;
     }
 
-
-    /*
-     * Gets attributes
-     *
-     * @return \Aspose\Tasks\Model\VbaModuleAttribute[]
-     */
-    public function getAttributes()
-    {
-        return $this->container['attributes'];
-    }
-
-    /*
-     * Sets attributes
-     *
-     * @param \Aspose\Tasks\Model\VbaModuleAttribute[] $attributes Gets a collection of  VbaModuleAttributeCollection
-     *
-     * @return $this
-     */
-    public function setAttributes($attributes)
-    {
-        $this->container['attributes'] = $attributes;
-
-        return $this;
-    }
-
-    /*
-     * Gets name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->container['name'];
-    }
-
-    /*
-     * Sets name
-     *
-     * @param string $name Gets the name of the module.
-     *
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->container['name'] = $name;
-
-        return $this;
-    }
 
     /*
      * Gets source_code
@@ -289,37 +217,13 @@ class VbaModule implements ArrayAccess
     /*
      * Sets source_code
      *
-     * @param string $source_code Gets a source code of the module
+     * @param string $source_code The new source code
      *
      * @return $this
      */
     public function setSourceCode($source_code)
     {
         $this->container['source_code'] = $source_code;
-
-        return $this;
-    }
-
-    /*
-     * Gets type
-     *
-     * @return \Aspose\Tasks\Model\VbaModuleType
-     */
-    public function getType()
-    {
-        return $this->container['type'];
-    }
-
-    /*
-     * Sets type
-     *
-     * @param \Aspose\Tasks\Model\VbaModuleType $type Gets the type of the module.
-     *
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->container['type'] = $type;
 
         return $this;
     }
